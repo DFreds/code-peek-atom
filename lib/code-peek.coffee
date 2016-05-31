@@ -32,8 +32,8 @@ module.exports = CodePeek =
     typeOfFile = CodePeekUtil.getFileType(textEditor)
     console.log "Type of file is #{typeOfFile}"
 
-    if (typeOfFile isnt "js" and typeOfFile isnt "coffee")
-      atom.notifications.addWarning("Peek function only works for javascript and coffee files", {dismissable: true})
+    if (typeOfFile isnt "js")
+      atom.notifications.addWarning("Peek function only works for javascript files")
       return
 
     allPaths = atom.project.getPaths()
@@ -43,7 +43,29 @@ module.exports = CodePeek =
     selectedText = textEditor.getSelectedText()
     console.log "Selected text is #{selectedText}"
 
-    regex = /function #{selectedText}|var #{selectedText}/
+    regex = new RegExp("function\\s*#{selectedText}\\s*\\(|var\\s*#{selectedText}\\s*=\\s*function\\s*\\(")
     atom.workspace.scan(regex, null, (matchingFile) ->
-      console.log matchingFile.filePath
+
+      # {
+      #   "filePath": "C:\\Users\\derek.fredrickson\\Documents\\GitHub\\code-peek-atom\\lib\\code-peek.coffee",
+      #   "matches": [
+      #     {
+      #       "matchText": "peekFunction:",
+      #       "lineText": "  peekFunction: ->",
+      #       "lineTextOffset": 0,
+      #       "range": [
+      #         [
+      #           27,
+      #           2
+      #         ],
+      #         [
+      #           27,
+      #           15
+      #         ]
+      #       ]
+      #     }
+      #   ]
+      # }
+
+      console.log(JSON.stringify(matchingFile, null, 2))
     )
