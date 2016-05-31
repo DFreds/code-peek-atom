@@ -1,0 +1,22 @@
+# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+'context-menu':
+  'atom-text-editor': [
+    {
+      'label': 'Peek Function'
+      'command': 'code-peek:peekFunction'
+    }
+  ]
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'code-peek'
+      'submenu': [
+        {
+          'label': 'Peek Function'
+          'command': 'code-peek:peekFunction'
+        }
+      ]
+    ]
+  }
+]
