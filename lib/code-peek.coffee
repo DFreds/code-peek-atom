@@ -29,21 +29,14 @@ module.exports = CodePeek =
     console.log 'Peeking the function'
 
     textEditor = atom.workspace.getActiveTextEditor()
-    typeOfFile = CodePeekUtil.getFileType(textEditor)
-    console.log "Type of file is #{typeOfFile}"
 
-    if (typeOfFile isnt "js")
+    if (CodePeekUtil.getFileType(textEditor) isnt "js")
       atom.notifications.addWarning("Peek function only works for javascript files")
       return
 
-    allPaths = atom.project.getPaths()
-    console.log("All paths #{allPaths}")
+    functionName = CodePeekUtil.getWordContainingCursor(textEditor)
 
-    textEditor.selectWordsContainingCursors()
-    selectedText = textEditor.getSelectedText()
-    console.log "Selected text is #{selectedText}"
-
-    regex = new RegExp("function\\s*#{selectedText}\\s*\\(|var\\s*#{selectedText}\\s*=\\s*function\\s*\\(")
+    regex = new RegExp("function\\s*#{functionName}\\s*\\(|var\\s*#{functionName}\\s*=\\s*function\\s*\\(")
     atom.workspace.scan(regex, null, (matchingFile) ->
 
       # {
@@ -67,5 +60,14 @@ module.exports = CodePeek =
       #   ]
       # }
 
-      console.log(JSON.stringify(matchingFile, null, 2))
+      matchingTextEditorPromise = atom.workspace.open(matchingFile.filePath, {
+        initialLine: matchingFile.matches[0].range[0][0],
+        activatePane: false,
+        activateItem: false
+      })
+
+      Promise.all([matchingTextEditorPromise]).then (values) ->
+        matchingTextEditor = values[0]
+        entireFunction = CodePeekUtil.getEntireFunction(matchingTextEditor, matchingTextEditor.getCursorBufferPosition().row)
+        console.log "Entire function is \n#{entireFunction}"
     )
