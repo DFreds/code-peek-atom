@@ -1,64 +1,44 @@
 CodePeekView = require './code-peek-view'
-CodePeekUtil = require './code-peek-util'
+FileParser = require './file-parser'
 {CompositeDisposable} = require 'atom'
 
 module.exports = CodePeek =
   codePeekView: null
-  modalPanel: null
+  panel: null
   subscriptions: null
 
   activate: (state) ->
-    @codePeekView = new CodePeekView(state.codePeekViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @codePeekView.getElement(), visible: false)
+    @codePeekView = new CodePeekView()
+    @panel = atom.workspace.addBottomPanel(item: @codePeekView.getElement(), visible: false)
 
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
     # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'code-peek:peekFunction': => @peekFunction()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'code-peek:peekFunction': =>
+      @peekFunction()
 
   deactivate: ->
-    @modalPanel.destroy()
+    @panel.destroy()
     @subscriptions.dispose()
     @codePeekView.destroy()
 
-  serialize: ->
-    codePeekViewState: @codePeekView.serialize()
+  # serialize: ->
+  #   codePeekViewState: @codePeekView.serialize()
 
   peekFunction: ->
-    console.log 'Peeking the function'
+    fileParser = new FileParser(atom.workspace.getActiveTextEditor())
 
-    textEditor = atom.workspace.getActiveTextEditor()
-
-    if (CodePeekUtil.getFileType(textEditor) isnt "js")
+    # TODO support more than just JS
+    if (fileParser.getFileType() isnt "js")
       atom.notifications.addWarning("Peek function only works for javascript files")
       return
 
-    functionName = CodePeekUtil.getWordContainingCursor(textEditor)
+    functionName = fileParser.getWordContainingCursor()
+    atom.notifications.addError("Unable to get word containing cursor") if not functionName?
 
     regex = new RegExp("function\\s*#{functionName}\\s*\\(|var\\s*#{functionName}\\s*=\\s*function\\s*\\(")
     atom.workspace.scan(regex, null, (matchingFile) ->
-
-      # {
-      #   "filePath": "C:\\Users\\derek.fredrickson\\Documents\\GitHub\\code-peek-atom\\lib\\code-peek.coffee",
-      #   "matches": [
-      #     {
-      #       "matchText": "peekFunction:",
-      #       "lineText": "  peekFunction: ->",
-      #       "lineTextOffset": 0,
-      #       "range": [
-      #         [
-      #           27,
-      #           2
-      #         ],
-      #         [
-      #           27,
-      #           15
-      #         ]
-      #       ]
-      #     }
-      #   ]
-      # }
 
       matchingTextEditorPromise = atom.workspace.open(matchingFile.filePath, {
         initialLine: matchingFile.matches[0].range[0][0],
@@ -68,6 +48,7 @@ module.exports = CodePeek =
 
       Promise.all([matchingTextEditorPromise]).then (values) ->
         matchingTextEditor = values[0]
-        entireFunction = CodePeekUtil.getEntireFunction(matchingTextEditor, matchingTextEditor.getCursorBufferPosition().row)
+        fileParser.setEditor(matchingTextEditor)
+        entireFunction = fileParser.getEntireFunction(matchingTextEditor.getCursorBufferPosition().row)
         console.log "Entire function is \n#{entireFunction}"
     )
