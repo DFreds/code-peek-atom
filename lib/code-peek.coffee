@@ -7,7 +7,7 @@ module.exports = CodePeek =
   panel: null
   subscriptions: null
 
-  activate: (state) ->
+  activate: ->
     @codePeekView = new CodePeekView()
     @panel = atom.workspace.addBottomPanel(item: @codePeekView.getElement(), visible: false)
 
@@ -23,10 +23,8 @@ module.exports = CodePeek =
     @subscriptions.dispose()
     @codePeekView.destroy()
 
-  # serialize: ->
-  #   codePeekViewState: @codePeekView.serialize()
-
   peekFunction: ->
+
     fileParser = new FileParser(atom.workspace.getActiveTextEditor())
 
     # TODO support more than just JS

@@ -1,7 +1,22 @@
+{Range, Point, CompositeDisposable} = require 'atom'
+
 module.exports =
 class CodePeekView
-  constructor: (serializedState) ->
-    @element = document.createElement('div');
+  constructor: ->
+    #TODO remove this later
+    @element = document.createElement('div')
+
+    @file = null
+    @text = null
+    @editRange = null
+
+    @textEditorView = document.createElement('atom-text-editor')
+    @textEditor = @textEditorView.getModel()
+
+    @grammars = atom.grammars
+
+    @subscriptions = new CompositeDisposable
+
     # Create root element
     # @element = document.createElement('div')
     # @element.classList.add('code-peek')
@@ -12,12 +27,23 @@ class CodePeekView
     # message.classList.add('message')
     # @element.appendChild(message)
 
-  # Returns an object that can be retrieved when package is activated
-  serialize: ->
-
   # Tear down any state and detach
   destroy: ->
-    @element.remove()
+    @subscriptions.dispose()
 
+  setFile: (file) ->
+    @file = file
+
+  setText: (text) ->
+    @text = text
+
+  setGrammar: ->
+    throw new Error "Text and file must be set" if @file is null or @test is null
+    @textEditor.setGrammar(atom.grammars.selectGrammar(@file.getPath(), @text))
+
+  setEditRange: (range) ->
+    @editRange = range
+
+  # TODO might not need to do this
   getElement: ->
     @element
