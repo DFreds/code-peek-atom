@@ -1,50 +1,55 @@
-{Range, Point, CompositeDisposable} = require 'atom'
+{CompositeDisposable, TextEditor} = require 'atom'
 
 module.exports =
 class CodePeekView
   constructor: ->
-    #TODO remove this later
+    # Create root element
     @element = document.createElement('div')
-
-    @file = null
-    @text = null
-    @editRange = null
-
-    @textEditorView = document.createElement('atom-text-editor')
-    @textEditor = @textEditorView.getModel()
-
-    @grammars = atom.grammars
+    @element.classList.add('code-peek')
 
     @subscriptions = new CompositeDisposable
 
-    # Create root element
-    # @element = document.createElement('div')
-    # @element.classList.add('code-peek')
-    #
-    # # Create message element
-    # message = document.createElement('div')
-    # message.textContent = "The CodePeek package is Alive! It's ALIVE!"
-    # message.classList.add('message')
-    # @element.appendChild(message)
+    @text = null
+    @editRange = null
+    @originalTextEditor = null
+
+    @grammarReg = atom.grammars
+
+    @grammar = null
+
+    @textEditor = null
 
   # Tear down any state and detach
   destroy: ->
     @subscriptions.dispose()
+    @element.remove()
 
-  setFile: (file) ->
-    @file = file
+  setupForEditing: (functionInfo, originalTextEditor) ->
+    @text = functionInfo.text
+    @editRange = functionInfo.range
+    @originalTextEditor = originalTextEditor
 
-  setText: (text) ->
-    @text = text
+    @grammar = @grammarReg.selectGrammar(@originalTextEditor.getPath(), @text)
 
-  setGrammar: ->
-    if @file is null or @test is null
-      throw new Error "Text and file must be set"
-    @textEditor.setGrammar(atom.grammars.selectGrammar(@file.getPath(), @text))
+    @textEditor = new TextEditor()
+    @textEditor.setGrammar(@grammar)
 
-  setEditRange: (range) ->
-    @editRange = range
+  attachTextEditorView: ->
+    if not @text? or not @editRange? or not @originalTextEditor?
+      throw new Error "Not all parameters set"
 
-  # TODO might not need to do this
+    @textEditor.setText(@text)
+    textEditorView = atom.views.getView(@textEditor)
+    @element.appendChild(textEditorView)
+
+  detachTextEditorView: ->
+    # TODO need to detach editor so multiple don't appear
+    # TODO ask if they want to save or do it automatically?
+
+    # get the contents of the original text editor
+    # get the new text of the new text editor
+    # set the text in buffer range of the original text editor
+    # call save on the original text editor
+
   getElement: ->
     @element

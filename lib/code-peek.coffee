@@ -10,8 +10,8 @@ module.exports = CodePeek =
 
   activate: ->
     @codePeekView = new CodePeekView()
-    @panel = atom.workspace.addBottomPanel(item: @codePeekView.getElement(),
-      visible: false)
+    @panel = atom.workspace.addBottomPanel(item: @codePeekView.getElement())
+    @panel.hide()
 
     # Events subscribed to in atom's system can be easily cleaned up with a
     # CompositeDisposable
@@ -28,15 +28,15 @@ module.exports = CodePeek =
 
   peekFunction: ->
 
-    # if @panel.isVisible()
-    #   @panel.hide()
-    #   return
+    if @panel.isVisible()
+      @codePeekView.detachTextEditorView()
+      @panel.hide()
+      return
 
     textEditorParser = new TextEditorParser(
       atom.workspace.getActiveTextEditor())
     fileType = textEditorParser.getFileType()
 
-    # TODO support more than just JS
     if not SupportedFiles.isSupported(fileType)
       atom.notifications.addWarning("Peek function does not support \
         #{fileType} files")
@@ -49,22 +49,20 @@ module.exports = CodePeek =
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
-    atom.workspace.scan(regExp, null, (matchingFile) ->
-
+    atom.workspace.scan(regExp, null, (matchingFile) =>
       atom.workspace.open(matchingFile.filePath, {
         initialLine: matchingFile.matches[0].range[0][0],
         activatePane: false,
         activateItem: false
-      }).then (matchingTextEditor) ->
+      }).then (matchingTextEditor) =>
         textEditorParser.setEditor(matchingTextEditor)
         functionInfo = textEditorParser.getFunctionInfo(
           matchingTextEditor.getCursorBufferPosition().row)
-        console.log "Entire function is \n#{functionInfo.text}"
 
-        # console.log "@code peek view is #{@codePeekView}"
-        # @codePeekView.setText = functionInfo.text
-        # @codePeekView.setEditRange = functionInfo.range
-        # @codePeekView.setTextEditor = matchingTextEditor
-        # @panel.show()
-        # @codePeekView.attachEditorView()
+        @startEditing(functionInfo, matchingTextEditor)
     )
+
+  startEditing: (functionInfo, matchingTextEditor) ->
+    @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
+    @panel.show()
+    @codePeekView.attachTextEditorView()
