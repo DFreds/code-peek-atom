@@ -1,7 +1,8 @@
 {Range} = require 'atom'
+FunctionInfo = require './function-info'
 
 module.exports =
-class FileParser
+class TextEditorParser
   constructor: (@textEditor = null) ->
 
   setEditor: (textEditor) ->
@@ -10,7 +11,7 @@ class FileParser
   getFileType: ->
     return null if not @textEditor?
 
-    splitTitle = @textEditor.getLongTitle().split(".")
+    splitTitle = @textEditor.getTitle().split(".")
     return splitTitle[splitTitle.length - 1]
 
   getWordContainingCursor: ->
@@ -28,35 +29,36 @@ class FileParser
 
     return @textEditor.getTextInBufferRange(new Range(start, end))
 
-  getEntireFunction: (startingRow) ->
+  getFunctionInfo: (startingRow) ->
     initial = @textEditor.getCursorBufferPosition()
     line = @textEditor.lineTextForBufferRow(startingRow)
 
-    bracketArr = []
-    passThroughs = 0
+    openBrackets = 0
+    linesParsed = 0
 
     currRow = startingRow
-    currCol = 0
+    endOfLineColumn = 0
     while true
-      if line.includes "{" and line.includes "}"
-        # do nothing
-      else if line.includes "{"
-        bracketArr.push("")
-      else if line.includes "}"
-        bracketArr.pop()
-
-      break if bracketArr.length is 0 and passThroughs isnt 0
-
-      currRow = currRow + 1
+      # get line text at current row
       line = @textEditor.lineTextForBufferRow(currRow)
 
+      # determine end of line column
       @textEditor.setCursorBufferPosition([currRow, 0])
       @textEditor.moveToEndOfLine()
+      endOfLineColumn = @textEditor.getCursorBufferPosition().column
 
-      currCol = @textEditor.getCursorBufferPosition().column
-      passThroughs = passThroughs + 1
+      if line.includes "{"
+        openBrackets++
+
+      if line.includes "}"
+        openBrackets--
+        break if openBrackets is 0
+
+      currRow++
 
     @textEditor.setCursorBufferPosition(initial)
 
-    entireFunction = new Range([startingRow, 0], [currRow, currCol])
-    return @textEditor.getTextInBufferRange(entireFunction)
+    functionRange = new Range([startingRow, 0], [currRow, endOfLineColumn])
+    functionText = @textEditor.getTextInBufferRange(functionRange)
+    return new FunctionInfo(functionText, functionRange)
+    #return @textEditor.getTextInBufferRange(functionRange)

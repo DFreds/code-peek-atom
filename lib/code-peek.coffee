@@ -1,5 +1,5 @@
 CodePeekView = require './code-peek-view'
-FileParser = require './file-parser'
+TextEditorParser = require './text-editor-parser'
 SupportedFiles = require './supported-files'
 {CompositeDisposable} = require 'atom'
 
@@ -28,8 +28,13 @@ module.exports = CodePeek =
 
   peekFunction: ->
 
-    fileParser = new FileParser(atom.workspace.getActiveTextEditor())
-    fileType = fileParser.getFileType()
+    # if @panel.isVisible()
+    #   @panel.hide()
+    #   return
+
+    textEditorParser = new TextEditorParser(
+      atom.workspace.getActiveTextEditor())
+    fileType = textEditorParser.getFileType()
 
     # TODO support more than just JS
     if not SupportedFiles.isSupported(fileType)
@@ -37,7 +42,7 @@ module.exports = CodePeek =
         #{fileType} files")
       return
 
-    functionName = fileParser.getWordContainingCursor()
+    functionName = textEditorParser.getWordContainingCursor()
 
     if not functionName?
       atom.notifications.addError("Unable to get word containing cursor")
@@ -46,16 +51,20 @@ module.exports = CodePeek =
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
     atom.workspace.scan(regExp, null, (matchingFile) ->
 
-      matchingTextEditorPromise = atom.workspace.open(matchingFile.filePath, {
+      atom.workspace.open(matchingFile.filePath, {
         initialLine: matchingFile.matches[0].range[0][0],
         activatePane: false,
         activateItem: false
-      })
-
-      Promise.all([matchingTextEditorPromise]).then (values) ->
-        matchingTextEditor = values[0]
-        fileParser.setEditor(matchingTextEditor)
-        entireFunction = fileParser.getEntireFunction(
+      }).then (matchingTextEditor) ->
+        textEditorParser.setEditor(matchingTextEditor)
+        functionInfo = textEditorParser.getFunctionInfo(
           matchingTextEditor.getCursorBufferPosition().row)
-        console.log "Entire function is \n#{entireFunction}"
+        console.log "Entire function is \n#{functionInfo.text}"
+
+        # console.log "@code peek view is #{@codePeekView}"
+        # @codePeekView.setText = functionInfo.text
+        # @codePeekView.setEditRange = functionInfo.range
+        # @codePeekView.setTextEditor = matchingTextEditor
+        # @panel.show()
+        # @codePeekView.attachEditorView()
     )
