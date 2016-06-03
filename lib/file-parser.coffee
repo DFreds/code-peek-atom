@@ -57,4 +57,6 @@ class FileParser
       passThroughs = passThroughs + 1
 
     @textEditor.setCursorBufferPosition(initial)
-    return @textEditor.getTextInBufferRange(new Range([startingRow, 0], [currRow, currCol]))
+
+    entireFunction = new Range([startingRow, 0], [currRow, currCol])
+    return @textEditor.getTextInBufferRange(entireFunction)

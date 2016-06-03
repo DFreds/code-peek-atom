@@ -38,7 +38,8 @@ class CodePeekView
     @text = text
 
   setGrammar: ->
-    throw new Error "Text and file must be set" if @file is null or @test is null
+    if @file is null or @test is null
+      throw new Error "Text and file must be set"
     @textEditor.setGrammar(atom.grammars.selectGrammar(@file.getPath(), @text))
 
   setEditRange: (range) ->

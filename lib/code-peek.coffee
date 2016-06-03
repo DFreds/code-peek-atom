@@ -1,5 +1,6 @@
 CodePeekView = require './code-peek-view'
 FileParser = require './file-parser'
+SupportedFiles = require './supported-files'
 {CompositeDisposable} = require 'atom'
 
 module.exports = CodePeek =
@@ -9,14 +10,16 @@ module.exports = CodePeek =
 
   activate: ->
     @codePeekView = new CodePeekView()
-    @panel = atom.workspace.addBottomPanel(item: @codePeekView.getElement(), visible: false)
+    @panel = atom.workspace.addBottomPanel(item: @codePeekView.getElement(),
+      visible: false)
 
-    # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
+    # Events subscribed to in atom's system can be easily cleaned up with a
+    # CompositeDisposable
     @subscriptions = new CompositeDisposable
 
     # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace', 'code-peek:peekFunction': =>
-      @peekFunction()
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'code-peek:peekFunction': => @peekFunction()
 
   deactivate: ->
     @panel.destroy()
@@ -26,17 +29,22 @@ module.exports = CodePeek =
   peekFunction: ->
 
     fileParser = new FileParser(atom.workspace.getActiveTextEditor())
+    fileType = fileParser.getFileType()
 
     # TODO support more than just JS
-    if (fileParser.getFileType() isnt "js")
-      atom.notifications.addWarning("Peek function only works for javascript files")
+    if not SupportedFiles.isSupported(fileType)
+      atom.notifications.addWarning("Peek function does not support \
+        #{fileType} files")
       return
 
     functionName = fileParser.getWordContainingCursor()
-    atom.notifications.addError("Unable to get word containing cursor") if not functionName?
 
-    regex = new RegExp("function\\s*#{functionName}\\s*\\(|var\\s*#{functionName}\\s*=\\s*function\\s*\\(")
-    atom.workspace.scan(regex, null, (matchingFile) ->
+    if not functionName?
+      atom.notifications.addError("Unable to get word containing cursor")
+      return
+
+    regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
+    atom.workspace.scan(regExp, null, (matchingFile) ->
 
       matchingTextEditorPromise = atom.workspace.open(matchingFile.filePath, {
         initialLine: matchingFile.matches[0].range[0][0],
@@ -47,6 +55,7 @@ module.exports = CodePeek =
       Promise.all([matchingTextEditorPromise]).then (values) ->
         matchingTextEditor = values[0]
         fileParser.setEditor(matchingTextEditor)
-        entireFunction = fileParser.getEntireFunction(matchingTextEditor.getCursorBufferPosition().row)
+        entireFunction = fileParser.getEntireFunction(
+          matchingTextEditor.getCursorBufferPosition().row)
         console.log "Entire function is \n#{entireFunction}"
     )
