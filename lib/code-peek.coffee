@@ -3,6 +3,9 @@ TextEditorParser = require './text-editor-parser'
 SupportedFiles = require './supported-files'
 {CompositeDisposable} = require 'atom'
 
+# TODO handle when multiple matches occur (2nd editor isn't disposed properly),
+# should probably have tabs or some other mechanism to swich between files
+# TODO allow saving or not saving, closing editor using escape or with X button
 module.exports = CodePeek =
   codePeekView: null
   panel: null
@@ -49,7 +52,7 @@ module.exports = CodePeek =
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
-    atom.workspace.scan(regExp, null, (matchingFile) =>
+    atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
       atom.workspace.open(matchingFile.filePath, {
         initialLine: matchingFile.matches[0].range[0][0],
         activatePane: false,

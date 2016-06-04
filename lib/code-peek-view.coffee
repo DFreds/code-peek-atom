@@ -43,10 +43,6 @@ class CodePeekView
     @element.appendChild(textEditorView)
 
   detachTextEditorView: ->
-    # TODO need to detach editor so multiple don't appear
-    # TODO ask if they want to save or do it automatically?
-
-    console.log "text buffer was modified"
     newText = @textEditor.getText()
 
     @originalTextEditor.setTextInBufferRange(@editRange, newText)
