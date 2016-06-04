@@ -13,3 +13,7 @@ var testFunction2 = function () {
 var testFunction3 = function () {
   test.functionBracketsOnOwnLine();
 };
+
+function functionOnOneLine() {
+  console.log('test');
+}

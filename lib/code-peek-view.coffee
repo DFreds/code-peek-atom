@@ -46,10 +46,13 @@ class CodePeekView
     # TODO need to detach editor so multiple don't appear
     # TODO ask if they want to save or do it automatically?
 
-    # get the contents of the original text editor
-    # get the new text of the new text editor
-    # set the text in buffer range of the original text editor
-    # call save on the original text editor
+    console.log "text buffer was modified"
+    newText = @textEditor.getText()
+
+    @originalTextEditor.setTextInBufferRange(@editRange, newText)
+    @originalTextEditor.save()
+
+    @textEditor.destroy()
 
   getElement: ->
     @element
