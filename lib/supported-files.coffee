@@ -2,8 +2,7 @@ module.exports =
 class SupportedFiles
   @types =
     'js':
-      regExpStr: 'function\\s*REPLACE\\s*\\(|
-        var\\s*REPLACE\\s*=\\s*function\\s*\\('
+      regExpStr: 'function\\s*REPLACE\\s*\\(|var\\s*REPLACE\\s*=\\s*function\\s*\\('
     'java':
       regExpStr: '(private|public)\\s*\\w*\\s*REPLACE\\s*\\('
 
