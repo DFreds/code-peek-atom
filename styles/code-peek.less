@@ -5,4 +5,25 @@
 @import "ui-variables";
 
 .code-peek {
+  @min-width: 200px;
+
+  .header {
+    padding: @component-padding/4 @component-padding/2;
+    min-width: @min-width;
+  }
+  .header-item {
+    margin: @component-padding/4 0;
+  }
+
+  .description {
+    display: inline-block;
+    .subtle-info-message {
+      padding-left: 5px;
+      color: @text-color-subtle;
+      .highlight {
+        color: @text-color;
+        font-weight: normal;
+      }
+    }
+  }
 }

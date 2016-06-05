@@ -3,9 +3,11 @@ TextEditorParser = require './text-editor-parser'
 SupportedFiles = require './supported-files'
 {CompositeDisposable} = require 'atom'
 
-# TODO handle when multiple matches occur (2nd editor isn't disposed properly),
-# should probably have tabs or some other mechanism to swich between files
+# TODO handle when multiple matches occur,
+# TODO should probably have tabs or some other mechanism to swich between files
 # TODO allow saving or not saving, closing editor using escape or with X button
+# TODO handle if code peek is already open and someone toggles it again
+# TODO set gutter numbers of editor to match actual file
 module.exports = CodePeek =
   codePeekView: null
   panel: null
@@ -13,7 +15,7 @@ module.exports = CodePeek =
 
   activate: ->
     @codePeekView = new CodePeekView()
-    @panel = atom.workspace.addBottomPanel(item: @codePeekView.getElement())
+    @panel = atom.workspace.addBottomPanel(item: @codePeekView)
     @panel.hide()
 
     # Events subscribed to in atom's system can be easily cleaned up with a
@@ -52,7 +54,9 @@ module.exports = CodePeek =
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
+    foundMatchingFile = false
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
+      foundMatchingFile = true
       atom.workspace.open(matchingFile.filePath, {
         initialLine: matchingFile.matches[0].range[0][0],
         activatePane: false,
@@ -64,6 +68,9 @@ module.exports = CodePeek =
 
         @startEditing(functionInfo, matchingTextEditor)
     )
+
+    if not foundMatchingFile
+      atom.notifications.addWarning("Could not find function in project")
 
   startEditing: (functionInfo, matchingTextEditor) ->
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)

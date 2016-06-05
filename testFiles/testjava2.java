@@ -1,4 +1,4 @@
-public string func2(string testString)
+public static string func2(string testString)
 {
   test.func1();
 }

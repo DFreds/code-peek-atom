@@ -1,5 +1,5 @@
 var peekFunction = function () {
-  console.log("haha");
+  console.log("hahads");
 };
 
 var testFunction = function () {
@@ -16,4 +16,8 @@ var testFunction3 = function () {
 
 function functionOnOneLine() {
   console.log('test');
+}
+
+function functionDoesNotExist() {
+  test.nonExistent();
 }

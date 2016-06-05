@@ -4,7 +4,7 @@ class SupportedFiles
     'js':
       regExpStr: 'function\\s*REPLACE\\s*\\(|var\\s*REPLACE\\s*=\\s*function\\s*\\('
     'java':
-      regExpStr: '(private|public)\\s*\\w*\\s*REPLACE\\s*\\('
+      regExpStr: '(private|public)\\s*[\\w\\s+]*\\s*REPLACE\\s*\\('
 
   @isSupported: (fileType) ->
     if @types[fileType]? then return true else return false

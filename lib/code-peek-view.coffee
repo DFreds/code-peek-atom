@@ -1,12 +1,27 @@
 {CompositeDisposable, TextEditor} = require 'atom'
+{View, TextEditorView} = require 'atom-space-pen-views'
 
 module.exports =
-class CodePeekView
-  constructor: ->
-    # Create root element
-    @element = document.createElement('div')
-    @element.classList.add('code-peek')
+class CodePeekView extends View
+  @content: ->
+    @div class: 'code-peek', =>
+      @header class: 'header', =>
+        @span outlet: 'descriptionLabel', class: 'header-item description',
+          'Code Peek'
 
+        # @div class: 'block', =>
+        #   @div class: 'btn-group', =>
+        #     @button outlet: 'saveButton', class: 'btn', =>
+        #       @span class: '', 'Save'
+        #     @button outlet: 'closeButton', class: 'btn', =>
+        #       @span class: '', 'Close'
+
+        # @button outlet: 'closeButton', class: 'btn', =>
+        #   @span class: 'icon icon-x'
+      @div =>
+        @subview 'textEditorView', new TextEditorView()
+
+  initialize: ->
     @subscriptions = new CompositeDisposable
 
     @text = null
@@ -14,10 +29,12 @@ class CodePeekView
     @originalTextEditor = null
 
     @grammarReg = atom.grammars
-
     @grammar = null
 
     @textEditor = null
+
+    # @saveButton.on 'click', @saveChanges
+    # @closeButton.on 'click', @detachTextEditorView
 
   # Tear down any state and detach
   destroy: ->
@@ -30,8 +47,10 @@ class CodePeekView
     @originalTextEditor = originalTextEditor
 
     @grammar = @grammarReg.selectGrammar(@originalTextEditor.getPath(), @text)
+    @descriptionLabel.html("Code Peek <span class='subtle-info-message'>\
+      #{@originalTextEditor.getPath()}</span>")
 
-    @textEditor = new TextEditor()
+    @textEditor = @textEditorView.getModel()
     @textEditor.setGrammar(@grammar)
 
   attachTextEditorView: ->
@@ -39,16 +58,13 @@ class CodePeekView
       throw new Error "Not all parameters set"
 
     @textEditor.setText(@text)
-    textEditorView = atom.views.getView(@textEditor)
-    @element.appendChild(textEditorView)
 
-  detachTextEditorView: ->
+  detachTextEditorView: () =>
+    @saveChanges()
+    @textEditor = null
+
+  saveChanges: =>
     newText = @textEditor.getText()
 
     @originalTextEditor.setTextInBufferRange(@editRange, newText)
     @originalTextEditor.save()
-
-    @textEditor.destroy()
-
-  getElement: ->
-    @element
