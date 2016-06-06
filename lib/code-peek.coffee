@@ -5,7 +5,6 @@ SupportedFiles = require './supported-files'
 
 # TODO should probably have tabs or some other mechanism to swich between files
 # TODO allow saving or not saving, closing editor using escape or with X button
-# TODO handle if code peek is already open and someone toggles it again
 # TODO set gutter numbers of editor to match
 module.exports = CodePeek =
   codePeekView: null
@@ -35,7 +34,6 @@ module.exports = CodePeek =
     if @panel.isVisible()
       @codePeekView.detachTextEditorView()
       @panel.hide()
-      return
 
     textEditorParser = new TextEditorParser(
       atom.workspace.getActiveTextEditor())
