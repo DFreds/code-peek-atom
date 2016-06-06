@@ -3,7 +3,6 @@ TextEditorParser = require './text-editor-parser'
 SupportedFiles = require './supported-files'
 {CompositeDisposable} = require 'atom'
 
-# TODO handle when multiple matches occur,
 # TODO should probably have tabs or some other mechanism to swich between files
 # TODO allow saving or not saving, closing editor using escape or with X button
 # TODO handle if code peek is already open and someone toggles it again
@@ -54,21 +53,26 @@ module.exports = CodePeek =
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
-    foundMatchingFile = false
+    matchingFiles = 0
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
-      foundMatchingFile = true
-      atom.workspace.open(matchingFile.filePath, {
-        initialLine: matchingFile.matches[0].range[0][0],
-        activatePane: false,
-        activateItem: false
-      }).then (matchingTextEditor) =>
-        textEditorParser.setEditor(matchingTextEditor)
-        functionInfo = textEditorParser.getFunctionInfo(
-          matchingTextEditor.getCursorBufferPosition().row)
+      matchingFiles++
 
-        @startEditing(functionInfo, matchingTextEditor)
+      if matchingFiles is 1
+        atom.workspace.open(matchingFile.filePath, {
+          initialLine: matchingFile.matches[0].range[0][0],
+          activatePane: false,
+          activateItem: false
+        }).then (matchingTextEditor) =>
+          textEditorParser.setEditor(matchingTextEditor)
+          functionInfo = textEditorParser.getFunctionInfo(
+            matchingTextEditor.getCursorBufferPosition().row)
+
+          @startEditing(functionInfo, matchingTextEditor)
+      else
+        # TODO handle additional matches here
+        console.log "found another match"
     ).then ->
-      if not foundMatchingFile
+      if matchingFiles is 0
         atom.notifications.addWarning("Could not find function in project")
 
   startEditing: (functionInfo, matchingTextEditor) ->
