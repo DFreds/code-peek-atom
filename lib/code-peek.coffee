@@ -3,9 +3,6 @@ TextEditorParser = require './text-editor-parser'
 SupportedFiles = require './supported-files'
 {CompositeDisposable} = require 'atom'
 
-# TODO should probably have tabs or some other mechanism to swich between files
-# TODO allow saving or not saving, closing editor using escape or with X button
-# TODO set gutter numbers of editor to match
 module.exports = CodePeek =
   codePeekView: null
   panel: null
