@@ -7,7 +7,7 @@ SupportedFiles = require './supported-files'
 # TODO should probably have tabs or some other mechanism to swich between files
 # TODO allow saving or not saving, closing editor using escape or with X button
 # TODO handle if code peek is already open and someone toggles it again
-# TODO set gutter numbers of editor to match actual file
+# TODO set gutter numbers of editor to match
 module.exports = CodePeek =
   codePeekView: null
   panel: null
@@ -67,10 +67,9 @@ module.exports = CodePeek =
           matchingTextEditor.getCursorBufferPosition().row)
 
         @startEditing(functionInfo, matchingTextEditor)
-    )
-
-    if not foundMatchingFile
-      atom.notifications.addWarning("Could not find function in project")
+    ).then ->
+      if not foundMatchingFile
+        atom.notifications.addWarning("Could not find function in project")
 
   startEditing: (functionInfo, matchingTextEditor) ->
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
