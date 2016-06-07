@@ -28,9 +28,6 @@ class CodePeekView extends View
     @editRange = null
     @originalTextEditor = null
 
-    @grammarReg = atom.grammars
-    @grammar = null
-
     @textEditor = null
 
     # @saveButton.on 'click', @saveChanges
@@ -46,12 +43,11 @@ class CodePeekView extends View
     @editRange = functionInfo.range
     @originalTextEditor = originalTextEditor
 
-    @grammar = @grammarReg.selectGrammar(@originalTextEditor.getPath(), @text)
     @descriptionLabel.html("Code Peek <span class='subtle-info-message'>\
       #{@originalTextEditor.getPath()}</span>")
 
     @textEditor = @textEditorView.getModel()
-    @textEditor.setGrammar(@grammar)
+    @textEditor.setGrammar(@originalTextEditor.getGrammar())
 
   attachTextEditorView: ->
     if not @text? or not @editRange? or not @originalTextEditor?
