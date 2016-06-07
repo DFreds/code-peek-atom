@@ -13,6 +13,8 @@ module.exports = CodePeek =
     @panel = atom.workspace.addBottomPanel(item: @codePeekView)
     @panel.hide()
 
+    @previousFunctionName = null
+
     # Events subscribed to in atom's system can be easily cleaned up with a
     # CompositeDisposable
     @subscriptions = new CompositeDisposable
@@ -28,23 +30,31 @@ module.exports = CodePeek =
 
   peekFunction: ->
 
+    textEditorParser = new TextEditorParser(
+      atom.workspace.getActiveTextEditor())
+
+    functionName = textEditorParser.getWordContainingCursor()
+    if not functionName?
+      atom.notifications.addError("Unable to get word containing cursor")
+      return
+
+    if @previousFunctionName is functionName
+      # user selected the same function as last time, so just toggle off
+      @codePeekView.detachTextEditorView()
+      @panel.hide()
+      @previousFunctionName = null
+      return
+
     if @panel.isVisible()
       @codePeekView.detachTextEditorView()
       @panel.hide()
 
-    textEditorParser = new TextEditorParser(
-      atom.workspace.getActiveTextEditor())
+    @previousFunctionName = functionName
     fileType = textEditorParser.getFileType()
 
     if not SupportedFiles.isSupported(fileType)
       atom.notifications.addWarning("Peek function does not support \
         #{fileType} files")
-      return
-
-    functionName = textEditorParser.getWordContainingCursor()
-
-    if not functionName?
-      atom.notifications.addError("Unable to get word containing cursor")
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
