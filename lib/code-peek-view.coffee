@@ -60,7 +60,8 @@ class CodePeekView extends View
     @textEditor = null
 
   saveChanges: =>
-    newText = @textEditor.getText()
+    if @textEditor? and @originalTextEditor?
+      newText = @textEditor.getText()
 
-    @originalTextEditor.setTextInBufferRange(@editRange, newText)
-    @originalTextEditor.save()
+      @originalTextEditor.setTextInBufferRange(@editRange, newText)
+      @originalTextEditor.save()

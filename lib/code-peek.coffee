@@ -23,6 +23,9 @@ module.exports = CodePeek =
     @subscriptions.add atom.commands.add 'atom-workspace',
       'code-peek:peekFunction': => @peekFunction()
 
+    @subscriptions.add atom.commands.add 'atom-workspace',
+      'code-peek:toggleCodePeekOff': => @toggleCodePeekOff()
+
   deactivate: ->
     @panel.destroy()
     @subscriptions.dispose()
@@ -40,14 +43,11 @@ module.exports = CodePeek =
 
     if @previousFunctionName is functionName
       # user selected the same function as last time, so just toggle off
-      @codePeekView.detachTextEditorView()
-      @panel.hide()
-      @previousFunctionName = null
+      @toggleCodePeekOff()
       return
 
     if @panel.isVisible()
-      @codePeekView.detachTextEditorView()
-      @panel.hide()
+      @toggleCodePeekOff()
 
     @previousFunctionName = functionName
     fileType = textEditorParser.getFileType()
@@ -84,3 +84,8 @@ module.exports = CodePeek =
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
     @panel.show()
     @codePeekView.attachTextEditorView()
+
+  toggleCodePeekOff: ->
+    @codePeekView.detachTextEditorView()
+    @panel.hide()
+    @previousFunctionName = null
