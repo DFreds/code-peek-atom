@@ -1,3 +1,4 @@
+# TODO Handle using code peek when it is already open better (maybe don't close, just replace text)
 # TODO should probably have tabs or some other mechanism to switch between files
 # TODO allow saving or not saving, closing editor using escape or with X button
 # TODO set gutter numbers of editor to match
