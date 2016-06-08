@@ -1,8 +1,8 @@
-# TODO Handle using code peek when it is already open better (maybe don't close, just replace text)
 # TODO should probably have tabs or some other mechanism to switch between files
 # TODO allow saving or not saving, closing editor using escape or with X button
 # TODO set gutter numbers of editor to match
 # TODO update changelog, readme, and package.json
-# TODO add config to set folder to scan? already only looks at same file types
 # TODO write unit tests, set up travis build?
 # TODO some caching?
+# TODO support additional bracket languages like TS, C#
+# TODO support white space languages like python, coffeescript -> editor.getTabLength() and editor.getSoftTabs() could help
