@@ -6,6 +6,10 @@ class SupportedFiles
         function\\s*\\('
     'ts':
       regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*=\\s*'
+    # 'coffee':
+    #   regExpStr: ''
+    # 'py':
+    #   regExpStr: ''
     'java':
       regExpStr: '(public|private)\\s*[\\w\\s]*\\s*REPLACE\\s*\\('
     # 'c':
