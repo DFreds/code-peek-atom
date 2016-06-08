@@ -2,9 +2,18 @@ module.exports =
 class SupportedFiles
   @types =
     'js':
-      regExpStr: 'function\\s*REPLACE\\s*\\(|var\\s*REPLACE\\s*=\\s*function\\s*\\('
+      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*(=|:)\\s*\
+        function\\s*\\('
+    'ts':
+      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*=\\s*'
     'java':
-      regExpStr: '(private|public)\\s*[\\w\\s+]*\\s*REPLACE\\s*\\('
+      regExpStr: '(public|private)\\s*[\\w\\s]*\\s*REPLACE\\s*\\('
+    # 'c':
+    #   regExpStr: ''
+    # 'cpp':
+    #   regExpStr: ''
+    'cs':
+      regExpStr: '(public|private)\\s*[\\w\\s]*\\s*REPLACE\\s*\\('
 
   @isSupported: (fileType) ->
     if @types[fileType]? then return true else return false

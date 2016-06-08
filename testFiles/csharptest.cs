@@ -1,3 +1,20 @@
+namespace Test
+{
+    public class TestClass
+    {
+
+        public void Test()
+        {
+            // Do some stuff
+            DoStuff(null);
+        }
+
+        public string DoStuff(string stuff) {
+
+        }
+    }
+}
+
 public class TestCs {
   public void test() {
     // blah
