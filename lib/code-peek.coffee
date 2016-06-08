@@ -75,12 +75,13 @@ module.exports = CodePeek =
         console.log "found another match"
     ).then ->
       if matchingFiles is 0
-        atom.notifications.addWarning("Could not find function in project")
+        atom.notifications.addWarning("Could not find function \
+          #{functionName} in project")
 
   startEditing: (functionInfo, matchingTextEditor) ->
     if @panel.isVisible()
       @toggleCodePeekOff()
-    
+
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
     @panel.show()
     @codePeekView.attachTextEditorView()
