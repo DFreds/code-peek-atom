@@ -8,5 +8,5 @@
 # For more detailed documentation see
 # https://atom.io/docs/latest/behind-atom-keymaps-in-depth
 'atom-workspace':
-  'ctrl-alt-o': 'code-peek:peekFunction'
+  'ctrl-alt-e': 'code-peek:peekFunction'
   'shift-escape': 'code-peek:toggleCodePeekOff'
