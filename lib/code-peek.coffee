@@ -46,9 +46,6 @@ module.exports = CodePeek =
       @toggleCodePeekOff()
       return
 
-    if @panel.isVisible()
-      @toggleCodePeekOff()
-
     @previousFunctionName = functionName
     fileType = textEditorParser.getFileType()
 
@@ -81,6 +78,9 @@ module.exports = CodePeek =
         atom.notifications.addWarning("Could not find function in project")
 
   startEditing: (functionInfo, matchingTextEditor) ->
+    if @panel.isVisible()
+      @toggleCodePeekOff()
+    
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
     @panel.show()
     @codePeekView.attachTextEditorView()
