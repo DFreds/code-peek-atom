@@ -1,5 +1,6 @@
 {CompositeDisposable, TextEditor} = require 'atom'
 {View, TextEditorView} = require 'atom-space-pen-views'
+FileListView = require './file-list-view'
 
 module.exports =
 class CodePeekView extends View
@@ -9,6 +10,10 @@ class CodePeekView extends View
         @span outlet: 'descriptionLabel', class: 'header-item description',
           'Code Peek'
 
+
+        # @ul class: 'block', =>
+        #   @li class: 'inline-block', 'One'
+        #   @li class: 'inline-block', 'Two'
         # @div class: 'block', =>
         #   @div class: 'btn-group', =>
         #     @button outlet: 'saveButton', class: 'btn', =>
@@ -18,8 +23,12 @@ class CodePeekView extends View
 
         # @button outlet: 'closeButton', class: 'btn', =>
         #   @span class: 'icon icon-x'
-      @div =>
-        @subview 'textEditorView', new TextEditorView()
+
+      @section class: 'input-block', =>
+        @div class: 'input-block-item input-block-item--flex editor-container', =>
+          @subview 'textEditorView', new TextEditorView()
+        @div class: 'input-block-item', =>
+          @subview 'fileListView', new FileListView()
 
   initialize: ->
     @subscriptions = new CompositeDisposable
@@ -36,7 +45,6 @@ class CodePeekView extends View
   # Tear down any state and detach
   destroy: ->
     @subscriptions.dispose()
-    @element.remove()
 
   setupForEditing: (functionInfo, originalTextEditor) ->
     @text = functionInfo.text
