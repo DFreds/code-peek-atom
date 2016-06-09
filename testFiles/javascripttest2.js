@@ -1,0 +1,5 @@
+getTest();
+
+function getTest() {
+
+}
