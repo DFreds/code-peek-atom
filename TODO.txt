@@ -3,4 +3,6 @@
 # TODO update changelog, readme, and package.json
 # TODO write unit tests, set up travis build?
 # TODO some caching?
+# TODO support HTML selectors and CSS
 # TODO support white space languages like python, coffeescript -> editor.getTabLength() and editor.getSoftTabs() could help
+# TODO handle case where there are multiple matches in the same file

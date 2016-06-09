@@ -59,6 +59,7 @@ module.exports = CodePeek =
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
       matchingFiles++
 
+      console.log "stuff #{matchingFile.matches}"
       if matchingFiles is 1
         atom.workspace.open(matchingFile.filePath, {
           initialLine: matchingFile.matches[0].range[0][0],
@@ -72,6 +73,7 @@ module.exports = CodePeek =
 
           @startEditing(functionInfo, matchingTextEditor)
       else
+        console.log "matching files is #{matchingFiles}"
         # TODO handle additional matches here
         console.log "found another match"
     ).then ->
