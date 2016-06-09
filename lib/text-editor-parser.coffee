@@ -29,7 +29,7 @@ class TextEditorParser
 
     return @textEditor.getTextInBufferRange(new Range(start, end))
 
-  getFunctionInfo: (startingRow) ->
+  getFunctionInfo: (startingRow, isTabBased) ->
     initial = @textEditor.getCursorBufferPosition()
     line = @textEditor.lineTextForBufferRow(startingRow)
 

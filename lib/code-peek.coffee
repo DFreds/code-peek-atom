@@ -67,7 +67,8 @@ module.exports = CodePeek =
         }).then (matchingTextEditor) =>
           textEditorParser.setEditor(matchingTextEditor)
           functionInfo = textEditorParser.getFunctionInfo(
-            matchingTextEditor.getCursorBufferPosition().row)
+            matchingTextEditor.getCursorBufferPosition().row,
+            SupportedFiles.isTabBased(fileType))
 
           @startEditing(functionInfo, matchingTextEditor)
       else
