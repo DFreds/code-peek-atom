@@ -83,8 +83,11 @@ module.exports = CodePeek =
       @toggleCodePeekOff()
 
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
-    @panel.show()
+    @toggleCodePeekOn()
+
+  toggleCodePeekOn: ->
     @codePeekView.attachTextEditorView()
+    @panel.show()
 
   toggleCodePeekOff: ->
     @codePeekView.detachTextEditorView()

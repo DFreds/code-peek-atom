@@ -1,8 +1,12 @@
-# TODO should probably have tabs or some other mechanism to switch between files
-# TODO allow saving or not saving, closing editor using escape or with X button
-# TODO update changelog, readme, and package.json
-# TODO write unit tests, set up travis build?
-# TODO some caching?
-# TODO support HTML selectors and CSS
-# TODO support white space languages like python, coffeescript -> editor.getTabLength() and editor.getSoftTabs() could help
-# TODO handle case where there are multiple matches in the same file
+TODO tabs or some other mechanism to switch between files when multiple matching files
+TODO closing editor with X button
+TODO update changelog, readme, and package.json
+TODO write unit tests
+TODO set up travis build
+
+Future release stuff
+TODO DEFER support HTML selectors and CSS
+TODO DEFER cache location of functions for quicker opening
+TODO DEFER support white space languages like python, coffeescript
+    *editor.getTabLength() and editor.getSoftTabs() could help
+TODO DEFER handle case where there are multiple matches in the same file
