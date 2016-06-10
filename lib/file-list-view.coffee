@@ -10,3 +10,12 @@ class FileListView extends View
     @items = []
 
   destroy: ->
+
+  addFile: (filePath, initialLine) =>
+    #TODO only display the file name
+    #TODO add click handler to change to new text editor... not sure how
+    #TODO add styling
+    @list.append("<li>#{filePath}</li>")
+
+  removeAllFiles: =>
+    $(@list).empty()

@@ -1,6 +1,7 @@
 CodePeekView = require './code-peek-view'
 TextEditorParser = require './text-editor-parser'
 SupportedFiles = require './supported-files'
+FileInfo = require './file-info'
 {CompositeDisposable} = require 'atom'
 
 module.exports = CodePeek =
@@ -33,6 +34,8 @@ module.exports = CodePeek =
 
   peekFunction: ->
 
+    @matchingFiles = []
+
     textEditorParser = new TextEditorParser(
       atom.workspace.getActiveTextEditor())
 
@@ -55,32 +58,34 @@ module.exports = CodePeek =
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
-    matchingFiles = 0
+
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
-      matchingFiles++
+      @matchingFiles.push(new FileInfo(matchingFile.filePath,
+        matchingFile.matches[0].range[0][0]))
+    ).then =>
 
-      if matchingFiles is 1
-        atom.workspace.open(matchingFile.filePath, {
-          initialLine: matchingFile.matches[0].range[0][0],
-          activatePane: false,
-          activateItem: false
-        }).then (matchingTextEditor) =>
-          textEditorParser.setEditor(matchingTextEditor)
-          functionInfo = textEditorParser.getFunctionInfo(
-            matchingTextEditor.getCursorBufferPosition().row,
-            SupportedFiles.isTabBased(fileType))
-
-          @startEditing(functionInfo, matchingTextEditor)
-      else
-        # TODO handle additional matches here
-    ).then ->
-      if matchingFiles is 0
+      if @matchingFiles.length is 0
         atom.notifications.addWarning("Could not find function \
           #{functionName} in project")
+        return
 
-  startEditing: (functionInfo, matchingTextEditor) ->
+      @codePeekView.addFiles(@matchingFiles)
+
+      atom.workspace.open(@matchingFiles[0].filePath, {
+        initialLine: @matchingFiles[0].initialLine
+        activatePane: false
+        activateItem: false
+      }).then (matchingTextEditor) =>
+        @startEditing(matchingTextEditor)
+
+  startEditing: (matchingTextEditor) ->
     if @panel.isVisible()
       @toggleCodePeekOff()
+
+    textEditorParser = new TextEditorParser(matchingTextEditor)
+    functionInfo = textEditorParser.getFunctionInfo(
+      matchingTextEditor.getCursorBufferPosition().row,
+      SupportedFiles.isTabBased(textEditorParser.getFileType()))
 
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
     @toggleCodePeekOn()
@@ -93,3 +98,4 @@ module.exports = CodePeek =
     @codePeekView.detachTextEditorView()
     @panel.hide()
     @previousFunctionName = null
+    @matchingFiles = []

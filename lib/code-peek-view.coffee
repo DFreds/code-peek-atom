@@ -67,6 +67,11 @@ class CodePeekView extends View
     @saveChanges()
     @textEditor = null
 
+  addFiles: (filesToAdd) =>
+    @fileListView.removeAllFiles()
+    for file in filesToAdd
+      @fileListView.addFile(file.filePath, file.initialLine)
+
   saveChanges: =>
     if @textEditor? and @originalTextEditor?
       newText = @textEditor.getText()
