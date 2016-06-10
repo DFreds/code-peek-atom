@@ -60,6 +60,8 @@ module.exports = CodePeek =
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
 
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
+      # TODO can the file info have an onclick handler method passed into it?
+      # It could live in this file if so to open the file and start editing
       @matchingFiles.push(new FileInfo(matchingFile.filePath,
         matchingFile.matches[0].range[0][0]))
     ).then =>
