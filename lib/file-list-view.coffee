@@ -12,10 +12,15 @@ class FileListView extends View
   destroy: ->
 
   addFile: (filePath, initialLine) =>
-    #TODO only display the file name
     #TODO add click handler to change to new text editor... not sure how
     #TODO add styling
-    @list.append("<li>#{filePath}</li>")
+    fileName = filePath.replace(/^.*[\\\/]/, '')
+
+    listElement = document.createElement('li')
+    listElement.textContent = fileName
+    #listElement.classList.add("testClass")
+
+    @list.append(listElement)
 
   removeAllFiles: =>
     $(@list).empty()
