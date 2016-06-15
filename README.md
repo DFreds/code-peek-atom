@@ -21,8 +21,8 @@ If you'd like to add your own language, send me a regex string or make a pull re
 Examples for a function called REPLACE:
 * JS - /function\s\*REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
 * TS - /function\s\*REPLACE\s\*\\(|REPLACE\s\*=\s\*/
-* Java - /(public|private|protected)\s\*[\w\s]\*\s\*REPLACE\s\*\\(/
-* C# - /(public|private|protected)\s\*[\w\s]\*\s\*REPLACE\s\*\\(/
+* Java - /(public|private|protected)\s\*[\w\s\S]\*\s\*REPLACE\s\*\\(/
+* C# - /(public|private|protected)\s\*[\w\s\S]\*\s\*REPLACE\s\*\\(/
 
 # Installation
 ```
@@ -47,6 +47,10 @@ This can be edited by defining key bindings as shown below.
 ```
 
 # Release Notes
+## 1.0.1
+* Fixed C#/Java parser so that it will find protected functions
+* Fixed C#/Java parser so it can find functions with typed returns
+
 ## 1.0.0
 * Support for JavaScript, TypeScript, Java, and C#
 

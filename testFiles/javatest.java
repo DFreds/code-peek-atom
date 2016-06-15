@@ -5,4 +5,9 @@ public void func1() {
 public static string func2(string testString)
 {
   test.func1();
+  test.func3();
+}
+
+protected static ArrayList<String> func3(int test, int test) {
+  System.out.println("Testing");
 }
