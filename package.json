@@ -2,13 +2,16 @@
   "name": "code-peek",
   "main": "./lib/code-peek",
   "version": "0.0.0",
-  "description": "A short description of your package",
+  "description": "Quickly peek and edit functions in separate files from the context of your current editor",
   "keywords": [
   ],
   "activationCommands": {
-    "atom-workspace": "code-peek:peekFunction"
+    "atom-text-editor": [
+      "code-peek:peekFunction",
+      "code-peek:toggleCodePeekOff"
+    ]
   },
-  "repository": "https://github.com/atom/code-peek",
+  "repository": "https://github.com/DFreds/code-peek-atom",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
