@@ -2,7 +2,7 @@
   "name": "code-peek",
   "main": "./lib/code-peek",
   "version": "1.0.0",
-  "description": "Quickly peek and edit functions in separate files from the context of your current editor",
+  "description": "Quickly peek and edit functions in separate files from the context of your current editor.",
   "keywords": [],
   "activationCommands": {
     "atom-text-editor": [
