@@ -1,11 +1,7 @@
 {
   "name": "code-peek",
   "main": "./lib/code-peek",
-<<<<<<< HEAD
-  "version": "1.0.5",
-=======
   "version": "1.0.0",
->>>>>>> parent of ac0a61c... Prepare 1.0.1 release
   "description": "Quickly peek and edit functions in separate files from the context of your current editor",
   "keywords": [],
   "activationCommands": {
