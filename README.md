@@ -57,5 +57,13 @@ This can be edited by defining key bindings as shown below.
 ### Full change log [here](./CHANGELOG.md).
 
 # Coming Soon
+* Save button
+* Close without saving using X button
 * Multiple files with same function definition
 * Additional language support
+  * PHP
+  * HTML/CSS
+  * C++
+  * C
+  * Python
+  * Coffee
