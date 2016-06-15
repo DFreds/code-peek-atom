@@ -15,7 +15,7 @@ class SupportedFiles
     #   regExpStr: ''
     #   isTabBased: true
     'java':
-      regExpStr: '(public|private)\\s*[\\w\\s]*\\s*REPLACE\\s*\\('
+      regExpStr: '(public|private|protected)\\s*[\\w\\s]*\\s*REPLACE\\s*\\('
       isTabBased: false
     # 'c':
     #   regExpStr: ''
@@ -24,7 +24,7 @@ class SupportedFiles
     #   regExpStr: ''
     #   isTabBased: false
     'cs':
-      regExpStr: '(public|private)\\s*[\\w\\s]*\\s*REPLACE\\s*\\('
+      regExpStr: '(public|private|protected)\\s*[\\w\\s]*\\s*REPLACE\\s*\\('
       isTabBased: false
 
   @isSupported: (fileType) ->
