@@ -35,7 +35,6 @@ module.exports = CodePeek =
     @codePeekView.destroy()
 
   peekFunction: ->
-
     @matchingFiles = []
 
     textEditorParser = new TextEditorParser(

@@ -4,6 +4,7 @@
 module.exports =
 class CodePeekView extends View
   @content: ->
+    peekEditor = atom.workspace.buildTextEditor()
     @div class: 'code-peek', =>
       @header class: 'header', =>
         @span outlet: 'descriptionLabel', class: 'header-item description',
@@ -26,7 +27,7 @@ class CodePeekView extends View
       @section class: 'input-block', =>
         # @div class: 'input-block-item input-block-item--flex editor-container', =>
         @div class: 'input-block-item input-block-item editor-container', =>
-          @subview 'textEditorView', new TextEditorView()
+          @subview 'textEditorView', new TextEditorView(editor: peekEditor)
         # @div class: 'input-block-item', =>
         #   @ol class: 'list-group', outlet: 'list'
 
@@ -39,7 +40,7 @@ class CodePeekView extends View
 
     @textEditor = null
 
-    @emitter = new Emitter
+    # @emitter = new Emitter
 
     # @saveButton.on 'click', @saveChanges
     # @closeButton.on 'click', @detachTextEditorView
