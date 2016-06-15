@@ -6,12 +6,13 @@ files instead of having to open the file separately. This was inspired by
 
 ![Code Peek Demo](https://github.com/DFreds/code-peek-atom/blob/master/code-peek.gif?raw=true)
 
-# Supported files
+# Supported Files
 Currently, supported files include:
 * JavaScript
 * TypeScript
 * Java
-* C#.
+* C#
+
 More will be coming soon.
 
 # Installation
