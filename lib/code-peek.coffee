@@ -27,6 +27,8 @@ module.exports = CodePeek =
     @subscriptions.add atom.commands.add 'atom-workspace',
       'code-peek:toggleCodePeekOff': => @toggleCodePeekOff()
 
+    # @subscriptions.add @codePeekView.onSelectFile(@openFile)
+
   deactivate: ->
     @panel.destroy()
     @subscriptions.dispose()
@@ -72,13 +74,16 @@ module.exports = CodePeek =
         return
 
       @codePeekView.addFiles(@matchingFiles)
+      @openFile(@matchingFiles[0])
 
-      atom.workspace.open(@matchingFiles[0].filePath, {
-        initialLine: @matchingFiles[0].initialLine
-        activatePane: false
-        activateItem: false
-      }).then (matchingTextEditor) =>
-        @startEditing(matchingTextEditor)
+  openFile: (file) ->
+    console.log "opening file #{file.filePath}"
+    atom.workspace.open(file.filePath, {
+      initialLine: file.initialLine
+      activatePane: false
+      activateItem: false
+    }).then (matchingTextEditor) =>
+      @startEditing(matchingTextEditor)
 
   startEditing: (matchingTextEditor) ->
     if @panel.isVisible()

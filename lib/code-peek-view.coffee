@@ -1,6 +1,5 @@
-{CompositeDisposable, TextEditor} = require 'atom'
-{View, TextEditorView} = require 'atom-space-pen-views'
-FileListView = require './file-list-view'
+{CompositeDisposable, TextEditor, Emitter} = require 'atom'
+{$, View, TextEditorView} = require 'atom-space-pen-views'
 
 module.exports =
 class CodePeekView extends View
@@ -25,10 +24,11 @@ class CodePeekView extends View
         #   @span class: 'icon icon-x'
 
       @section class: 'input-block', =>
-        @div class: 'input-block-item input-block-item--flex editor-container', =>
+        # @div class: 'input-block-item input-block-item--flex editor-container', =>
+        @div class: 'input-block-item input-block-item editor-container', =>
           @subview 'textEditorView', new TextEditorView()
-        @div class: 'input-block-item', =>
-          @subview 'fileListView', new FileListView()
+        # @div class: 'input-block-item', =>
+        #   @ol class: 'list-group', outlet: 'list'
 
   initialize: ->
     @subscriptions = new CompositeDisposable
@@ -39,12 +39,17 @@ class CodePeekView extends View
 
     @textEditor = null
 
+    @emitter = new Emitter
+
     # @saveButton.on 'click', @saveChanges
     # @closeButton.on 'click', @detachTextEditorView
 
   # Tear down any state and detach
   destroy: ->
     @subscriptions.dispose()
+
+  # onSelectFile: (callback) ->
+  #   @emitter.on 'select-file', callback
 
   setupForEditing: (functionInfo, originalTextEditor) ->
     @text = functionInfo.text
@@ -68,9 +73,19 @@ class CodePeekView extends View
     @textEditor = null
 
   addFiles: (filesToAdd) =>
-    @fileListView.removeAllFiles()
-    for file in filesToAdd
-      @fileListView.addFile(file.filePath, file.initialLine)
+    # $(@list).empty()
+    # for file in filesToAdd
+    #   fileName = file.filePath.replace(/^.*[\\\/]/, '')
+    #
+    #   listElement = $("<li>#{fileName}</li>").addClass("test-class")
+    #   # listElement.click =>
+    #   #   @emitter.emit 'select-file', file
+    #   # listElement = document.createElement('li')
+    #   # #listElement.setAttribute("id", @items.length - 1)
+    #   # listElement.textContent = fileName
+    #   # listElement.classList.add("test-class")
+    #
+    #   @list.append(listElement)
 
   saveChanges: =>
     if @textEditor? and @originalTextEditor?
