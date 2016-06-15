@@ -12,7 +12,7 @@ class SupportedFiles
     #   regExpStr: ''
     #   isTabBased: true
     # 'py':
-    #   regExpStr: ''
+    #   regExpStr: 'def\\s*REPLACE\\s*\\('
     #   isTabBased: true
     'java':
       regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*\\s*REPLACE\\s*\\('
@@ -31,7 +31,10 @@ class SupportedFiles
     if @types[fileType]? then return true else return false
 
   @isTabBased: (fileType) ->
-    if @types[fileType]? then return @types[fileType].isTabBased
+    if @types[fileType]?
+      return @types[fileType].isTabBased
+    else
+      return false
 
   @getFunctionRegExpForFileType: (fileType, functionName) ->
     if not @types[fileType] then throw new Error "File type #{fileType} is not \

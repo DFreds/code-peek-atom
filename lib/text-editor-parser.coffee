@@ -31,13 +31,11 @@ class TextEditorParser
 
   getFunctionInfo: (startingRow, isTabBased) ->
     initial = @textEditor.getCursorBufferPosition()
-    line = @textEditor.lineTextForBufferRow(startingRow)
 
     openBrackets = 0
-    linesParsed = 0
-
     currRow = startingRow
     endOfLineColumn = 0
+
     while true
       # get line text at current row
       line = @textEditor.lineTextForBufferRow(currRow)
