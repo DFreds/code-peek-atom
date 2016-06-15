@@ -15,6 +15,15 @@ Currently, supported files include:
 
 More will be coming soon.
 
+## Adding A Language
+If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases.
+
+Examples for a function called REPLACE:
+* JS - /function\s*REPLACE\s*\(|REPLACE\s*(=|:)\s*function\s*\(/
+* TS - /function\s*REPLACE\s*\(|REPLACE\s*=\s*/
+* Java - /(public|private)\s*[\w\s]*\s*REPLACE\s*\(/
+* C# - /(public|private)\s*[\w\s]*\s*REPLACE\s*\(/
+
 # Installation
 ```
 apm install code-peek
