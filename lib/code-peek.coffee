@@ -64,8 +64,21 @@ module.exports = CodePeek =
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
 
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
+      initialLine = 0
+
+      # HACK I literally have no idea why this is happening. If the file has
+      # unsaved changes, we get a range object. If it does not, we get an array
+      # for the range.
+      if matchingFile.matches[0].range? and
+        matchingFile.matches[0].range.start? and
+        matchingFile.matches[0].range.start.row?
+          initialLine = matchingFile.matches[0].range.start.row
+      else
+        initialLine = matchingFile.matches[0].range[0][0]
+
+      console.log "initial line is #{initialLine}"
       @matchingFiles.push(new FileInfo(matchingFile.filePath,
-        matchingFile.matches[0].range[0][0]))
+        initialLine))
     ).then =>
       if @matchingFiles.length is 0
         atom.notifications.addWarning("Could not find function \
