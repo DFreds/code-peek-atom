@@ -114,7 +114,8 @@ module.exports = CodePeek =
     if @codePeekView.isModified() and not shouldSave
       chosen = atom.confirm({
         message: 'This file has changes. Do you want to save them?'
-        detailedMessage: "Your changes will be lost if you close this item without saving."
+        detailedMessage: "Your changes will be lost if you close this item\
+          without saving."
         buttons: ["Save", "Cancel", "Don't save"]
       })
 
@@ -123,9 +124,8 @@ module.exports = CodePeek =
         when 1 then return
         when 2 then shouldSave = false
 
-    console.log "#{chosen} #{shouldSave}"
-    @codePeekView.detachTextEditorView()
     @codePeekView.saveChanges() if shouldSave
+    @codePeekView.detachTextEditorView()
     @panel.hide()
     @previousFunctionName = null
     @matchingFiles = []
