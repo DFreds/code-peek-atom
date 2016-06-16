@@ -1,3 +1,7 @@
+## 1.1.2 - JSX support
+* Support for JSX
+* Fixed minor issue with TS regex
+
 ## 1.1.1 - Language support
 * Support for PHP
 * Simplified Java and C# regex expressions

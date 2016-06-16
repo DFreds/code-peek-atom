@@ -6,7 +6,12 @@ class SupportedFiles
         function\\s*\\('
       isTabBased: false
     'ts':
-      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*=\\s*'
+      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*(=|:)\\s*\
+        function\\s*\\('
+      isTabBased: false
+    'jsx':
+      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*(=|:)\\s*\
+        function\\s*\\('
       isTabBased: false
     'php':
       regExpStr: 'function\\s*REPLACE\\s*\\('
