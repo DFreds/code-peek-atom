@@ -8,6 +8,9 @@ class SupportedFiles
     'ts':
       regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*=\\s*'
       isTabBased: false
+    'php':
+      regExpStr: 'function\\s*REPLACE\\s*\\('
+      isTabBased: false
     # 'coffee':
     #   regExpStr: ''
     #   isTabBased: true
@@ -15,7 +18,7 @@ class SupportedFiles
     #   regExpStr: 'def\\s*REPLACE\\s*\\('
     #   isTabBased: true
     'java':
-      regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*\\s*REPLACE\\s*\\('
+      regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
       isTabBased: false
     # 'c':
     #   regExpStr: ''
@@ -24,7 +27,7 @@ class SupportedFiles
     #   regExpStr: ''
     #   isTabBased: false
     'cs':
-      regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*\\s*REPLACE\\s*\\('
+      regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
       isTabBased: false
 
   @isSupported: (fileType) ->

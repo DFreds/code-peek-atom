@@ -12,6 +12,7 @@ Currently, supported files include:
 * TypeScript
 * Java
 * C#
+* PHP
 
 More will be coming soon.
 
@@ -21,8 +22,9 @@ If you'd like to add your own language, send me a regex string or make a pull re
 Examples for a function called REPLACE:
 * JS - /function\s\*REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
 * TS - /function\s\*REPLACE\s\*\\(|REPLACE\s\*=\s\*/
-* Java - /(public|private|protected)\s\*[\w\s\S]\*\s\*REPLACE\s\*\\(/
-* C# - /(public|private|protected)\s\*[\w\s\S]\*\s\*REPLACE\s\*\\(/
+* Java - /(public|private|protected)\s\*[\w\s\S]\*REPLACE\s\*\\(/
+* C# - /(public|private|protected)\s\*[\w\s\S]\*REPLACE\s\*\\(/
+* PHP - /function\s\*REPLACE\s\*\\(/
 
 # Installation
 ```
@@ -49,9 +51,8 @@ This can be edited by defining key bindings as shown below.
 # Coming Soon
 * Multiple files with same function definition
 * Additional language support
-  * PHP
   * HTML/CSS
-  * C++
+  * C++ (standard style function definitions)
   * C
   * Python
   * Coffee
