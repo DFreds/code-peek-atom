@@ -18,7 +18,7 @@ Currently, supported files include:
 More will be coming soon.
 
 ## Adding A Language
-If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases.
+If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases. Currently, Code Peek only supports languages that use curly brackets to indicate the start and end of a function. In the future, tab based languages such as Python will be supported.
 
 Examples for a function called REPLACE:
 * JS - /function\s\*REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
