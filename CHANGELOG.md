@@ -1,6 +1,7 @@
 ## 1.1.2 - JSX support
 * Support for JSX
 * Fixed minor issue with TS regex
+* Workaround for issue where Code Peek would fail if it found a match in a modified file. This was caused by an [Atom bug](https://github.com/atom/atom/issues/10900).
 
 ## 1.1.1 - PHP support
 * Support for PHP
