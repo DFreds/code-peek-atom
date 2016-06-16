@@ -66,9 +66,9 @@ module.exports = CodePeek =
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
       initialLine = 0
 
-      # HACK I literally have no idea why this is happening. If the file has
-      # unsaved changes, we get a range object. If it does not, we get an array
-      # for the range.
+      # HACK If the file has unsaved changes, we get a range object.
+      # If it does not, we get an array for the range. Bug in Atom itself,
+      # logged here: https://github.com/atom/atom/issues/10900
       if matchingFile.matches[0].range? and
         matchingFile.matches[0].range.start? and
         matchingFile.matches[0].range.start.row?
