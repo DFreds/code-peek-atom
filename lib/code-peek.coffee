@@ -21,12 +21,15 @@ module.exports = CodePeek =
     @subscriptions = new CompositeDisposable
 
     # Register command that toggles this view
-    @subscriptions.add atom.commands.add 'atom-workspace',
+    @subscriptions.add atom.commands.add 'atom-text-editor',
       'code-peek:peekFunction': => @peekFunction()
 
-    @subscriptions.add atom.commands.add 'atom-workspace',
-      'code-peek:toggleCodePeekOff': => @toggleCodePeekOff()
+    @subscriptions.add atom.commands.add 'atom-text-editor',
+      'code-peek:toggleCodePeekOff': => @toggleCodePeekOff(true)
 
+    @subscriptions.add @codePeekView.onCloseIconClicked(
+      @toggleCodePeekOff.bind(@)
+    )
     # @subscriptions.add @codePeekView.onSelectFile(@openFile)
 
   deactivate: ->
@@ -47,7 +50,7 @@ module.exports = CodePeek =
 
     if @previousFunctionName is functionName
       # user selected the same function as last time, so just toggle off
-      @toggleCodePeekOff()
+      @toggleCodePeekOff(true)
       return
 
     @previousFunctionName = functionName
@@ -69,7 +72,7 @@ module.exports = CodePeek =
           #{functionName} in project")
         return
 
-      @codePeekView.addFiles(@matchingFiles)
+      # @codePeekView.addFiles(@matchingFiles)
       @openFile(@matchingFiles[0])
 
   openFile: (file) ->
@@ -82,7 +85,7 @@ module.exports = CodePeek =
 
   startEditing: (matchingTextEditor) ->
     if @panel.isVisible()
-      @toggleCodePeekOff()
+      @toggleCodePeekOff(true)
 
     textEditorParser = new TextEditorParser(matchingTextEditor)
     functionInfo = textEditorParser.getFunctionInfo(
@@ -96,8 +99,9 @@ module.exports = CodePeek =
     @codePeekView.attachTextEditorView()
     @panel.show()
 
-  toggleCodePeekOff: ->
+  toggleCodePeekOff: (shouldSave) ->
     @codePeekView.detachTextEditorView()
+    @codePeekView.saveChanges() if shouldSave
     @panel.hide()
     @previousFunctionName = null
     @matchingFiles = []

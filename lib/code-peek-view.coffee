@@ -10,22 +10,13 @@ class CodePeekView extends View
         @span outlet: 'descriptionLabel', class: 'header-item description',
           'Code Peek'
 
-
-        # @ul class: 'block', =>
-        #   @li class: 'inline-block', 'One'
-        #   @li class: 'inline-block', 'Two'
-        # @div class: 'block', =>
-        #   @div class: 'btn-group', =>
-        #     @button outlet: 'saveButton', class: 'btn', =>
-        #       @span class: '', 'Save'
-        #     @button outlet: 'closeButton', class: 'btn', =>
-        #       @span class: '', 'Close'
-
-        # @button outlet: 'closeButton', class: 'btn', =>
-        #   @span class: 'icon icon-x'
+        @span class: "header-item pull-right description", =>
+          @span outlet: 'closeHelpLabel'
+          @span outlet: 'closeIcon', class: 'icon icon-x close-icon'
 
       @section class: 'input-block', =>
-        # @div class: 'input-block-item input-block-item--flex editor-container', =>
+        # @div class:
+        #'input-block-item input-block-item--flex editor-container', =>
         @div class: 'input-block-item input-block-item editor-container', =>
           @subview 'textEditorView', new TextEditorView(editor: peekEditor)
         # @div class: 'input-block-item', =>
@@ -34,13 +25,19 @@ class CodePeekView extends View
   initialize: ->
     @subscriptions = new CompositeDisposable
 
+    @subscriptions.add atom.tooltips.add @closeIcon,
+      title: "Close without saving"
+
     @text = null
     @editRange = null
     @originalTextEditor = null
 
     @textEditor = null
 
-    # @emitter = new Emitter
+    @emitter = new Emitter
+
+    @closeIcon.on 'click', =>
+      @emitter.emit 'close-icon-clicked', false
 
     # @saveButton.on 'click', @saveChanges
     # @closeButton.on 'click', @detachTextEditorView
@@ -52,6 +49,9 @@ class CodePeekView extends View
   # onSelectFile: (callback) ->
   #   @emitter.on 'select-file', callback
 
+  onCloseIconClicked: (callback) ->
+    @emitter.on 'close-icon-clicked', callback
+
   setupForEditing: (functionInfo, originalTextEditor) ->
     @text = functionInfo.text
     @editRange = functionInfo.range
@@ -59,6 +59,13 @@ class CodePeekView extends View
 
     @descriptionLabel.html("Code Peek <span class='subtle-info-message'>\
       #{@originalTextEditor.getPath()}</span>")
+
+    closeKeyMap = atom.keymaps.findKeyBindings({
+      command: 'code-peek:toggleCodePeekOff'
+    })
+    @closeHelpLabel.html("<span class='subtle-info-message'>\
+      Save changes and close this panel using <span class='highlight'>\
+      #{closeKeyMap[0].keystrokes}</span></span>")
 
     @textEditor = @textEditorView.getModel()
     @textEditor.setGrammar(@originalTextEditor.getGrammar())
@@ -70,10 +77,9 @@ class CodePeekView extends View
     @textEditor.setText(@text)
 
   detachTextEditorView: () =>
-    @saveChanges()
     @textEditor = null
 
-  addFiles: (filesToAdd) =>
+  # addFiles: (filesToAdd) =>
     # $(@list).empty()
     # for file in filesToAdd
     #   fileName = file.filePath.replace(/^.*[\\\/]/, '')
