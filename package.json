@@ -1,7 +1,7 @@
 {
   "name": "code-peek",
   "main": "./lib/code-peek",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Quickly peek and edit functions in separate files from the context of your current editor.",
   "keywords": [],
   "activationCommands": {
