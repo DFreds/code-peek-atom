@@ -2,7 +2,7 @@
 
 This package allows you to quickly peek and edit functions contained in other
 files instead of having to open the file separately. This was inspired by
-[Brackets](http://brackets.io/)'s quick edit feature and Maushundb's [Quick Editor](https://atom.io/packages/quick-editor) for CSS/LESS/SCSS.
+[Brackets](http://brackets.io/)' quick edit feature and Maushundb's [Quick Editor](https://atom.io/packages/quick-editor) for CSS/LESS/SCSS.
 
 ![Code Peek Demo](https://github.com/DFreds/code-peek-atom/blob/master/code-peek.gif?raw=true)
 
