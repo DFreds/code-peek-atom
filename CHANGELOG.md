@@ -1,3 +1,7 @@
+## 1.1.0 - Close without saving button
+* Added icon that closes code peek and discards changes to opened function
+  * Using shift+escape will save changes
+
 ## 1.0.1 - Better parsing for C#/Java
 * Fixed C#/Java parser so that it will find protected functions
 * Fixed C#/Java parser so it can find functions with typed returns

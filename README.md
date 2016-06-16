@@ -46,19 +46,7 @@ This can be edited by defining key bindings as shown below.
 
 ```
 
-# Release Notes
-## 1.0.1
-* Fixed C#/Java parser so that it will find protected functions
-* Fixed C#/Java parser so it can find functions with typed returns
-
-## 1.0.0
-* Support for JavaScript, TypeScript, Java, and C#
-
-### Full change log [here](./CHANGELOG.md).
-
 # Coming Soon
-* Save button
-* Close without saving using X button
 * Multiple files with same function definition
 * Additional language support
   * PHP
@@ -67,3 +55,5 @@ This can be edited by defining key bindings as shown below.
   * C
   * Python
   * Coffee
+
+### Full change log [here](./CHANGELOG.md).
