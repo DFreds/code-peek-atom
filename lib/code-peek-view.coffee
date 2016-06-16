@@ -94,9 +94,15 @@ class CodePeekView extends View
     #
     #   @list.append(listElement)
 
-  saveChanges: =>
+  isModified: ->
+    if @textEditor? and @originalTextEditor?
+      return @textEditor.getText() != @originalTextEditor.getTextInBufferRange(@editRange)
+
+  saveChanges: ->
+    #TODO not saving correctly because originalTextEditor is null somehow
     if @textEditor? and @originalTextEditor?
       newText = @textEditor.getText()
 
       @originalTextEditor.setTextInBufferRange(@editRange, newText)
+      console.log "#{@originalTextEditor.getText()}"
       @originalTextEditor.save()

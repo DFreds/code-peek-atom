@@ -76,7 +76,6 @@ module.exports = CodePeek =
       else
         initialLine = matchingFile.matches[0].range[0][0]
 
-      console.log "initial line is #{initialLine}"
       @matchingFiles.push(new FileInfo(matchingFile.filePath,
         initialLine))
     ).then =>
@@ -84,7 +83,6 @@ module.exports = CodePeek =
         atom.notifications.addWarning("Could not find function \
           #{functionName} in project")
         return
-
       # @codePeekView.addFiles(@matchingFiles)
       @openFile(@matchingFiles[0])
 
@@ -113,6 +111,19 @@ module.exports = CodePeek =
     @panel.show()
 
   toggleCodePeekOff: (shouldSave) ->
+    if @codePeekView.isModified() and not shouldSave
+      chosen = atom.confirm({
+        message: 'This file has changes. Do you want to save them?'
+        detailedMessage: "Your changes will be lost if you close this item without saving."
+        buttons: ["Save", "Cancel", "Don't save"]
+      })
+
+      switch chosen
+        when 0 then shouldSave = true
+        when 1 then return
+        when 2 then shouldSave = false
+
+    console.log "#{chosen} #{shouldSave}"
     @codePeekView.detachTextEditorView()
     @codePeekView.saveChanges() if shouldSave
     @panel.hide()
