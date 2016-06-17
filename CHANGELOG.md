@@ -1,4 +1,9 @@
-## 1.2.0 - JSX support, UI changes
+## 1.3.0 - UI changes, configuration setting
+* Added check icon to save and close file
+* Added code icon to view entire file that contains function
+* Added configuration for asking if sure when a file is modified and the code peek panel is closed without saving
+
+## 1.2.0 -  UI changes, JSX support
 * Support for JSX
 * Fixed minor issue with TS regex
 * Workaround for issue where Code Peek would fail if it found a match in a modified file. This was caused by an [Atom bug](https://github.com/atom/atom/issues/10900).

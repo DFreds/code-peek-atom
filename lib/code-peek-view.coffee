@@ -11,7 +11,8 @@ class CodePeekView extends View
           'Code Peek'
 
         @span class: "header-item pull-right description", =>
-          @span outlet: 'closeHelpLabel'
+          @span outlet: 'checkIcon', class: 'icon icon-check check-icon'
+          @span outlet: 'codeIcon', class: 'icon icon-code code-icon'
           @span outlet: 'closeIcon', class: 'icon icon-x close-icon'
 
       @section class: 'input-block', =>
@@ -25,6 +26,16 @@ class CodePeekView extends View
   initialize: ->
     @subscriptions = new CompositeDisposable
 
+    saveAndCloseKeymap = atom.keymaps.findKeyBindings({
+      command: 'code-peek:toggleCodePeekOff'
+    })
+
+    @subscriptions.add atom.tooltips.add @checkIcon,
+      title: "Save and close (#{saveAndCloseKeymap[0].keystrokes})"
+
+    @subscriptions.add atom.tooltips.add @codeIcon,
+      title: "See entire file"
+
     @subscriptions.add atom.tooltips.add @closeIcon,
       title: "Close without saving"
 
@@ -36,6 +47,13 @@ class CodePeekView extends View
 
     @emitter = new Emitter
 
+    @checkIcon.on 'click', =>
+      @emitter.emit 'check-icon-clicked', true
+    @codeIcon.on 'click', =>
+      fileInfo =
+        filePath: @originalTextEditor.getPath()
+        range: @editRange
+      @emitter.emit 'code-icon-clicked', fileInfo
     @closeIcon.on 'click', =>
       @emitter.emit 'close-icon-clicked', false
 
@@ -49,6 +67,12 @@ class CodePeekView extends View
   # onSelectFile: (callback) ->
   #   @emitter.on 'select-file', callback
 
+  onCheckIconClicked: (callback) ->
+    @emitter.on 'check-icon-clicked', callback
+
+  onCodeIconClicked: (callback) ->
+    @emitter.on 'code-icon-clicked', callback
+
   onCloseIconClicked: (callback) ->
     @emitter.on 'close-icon-clicked', callback
 
@@ -59,13 +83,6 @@ class CodePeekView extends View
 
     @descriptionLabel.html("Code Peek <span class='subtle-info-message'>\
       #{@originalTextEditor.getPath()}</span>")
-
-    closeKeyMap = atom.keymaps.findKeyBindings({
-      command: 'code-peek:toggleCodePeekOff'
-    })
-    @closeHelpLabel.html("<span class='subtle-info-message'>\
-      Save changes and close this panel using <span class='highlight'>\
-      #{closeKeyMap[0].keystrokes}</span></span>")
 
     @textEditor = @textEditorView.getModel()
     @textEditor.setGrammar(@originalTextEditor.getGrammar())

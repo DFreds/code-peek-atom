@@ -27,9 +27,18 @@ module.exports = CodePeek =
     @subscriptions.add atom.commands.add 'atom-text-editor',
       'code-peek:toggleCodePeekOff': => @toggleCodePeekOff(true)
 
+    @subscriptions.add @codePeekView.onCheckIconClicked(
+      @toggleCodePeekOff.bind(@)
+    )
+
+    @subscriptions.add @codePeekView.onCodeIconClicked(
+      @openEntireFile.bind(@)
+    )
+
     @subscriptions.add @codePeekView.onCloseIconClicked(
       @toggleCodePeekOff.bind(@)
     )
+
     # @subscriptions.add @codePeekView.onSelectFile(@openFile)
 
   deactivate: ->
@@ -84,9 +93,14 @@ module.exports = CodePeek =
           #{functionName} in project")
         return
       # @codePeekView.addFiles(@matchingFiles)
-      @openFile(@matchingFiles[0])
+      @openFileForCodePeek(@matchingFiles[0])
 
-  openFile: (file) ->
+  openEntireFile: (fileInfo) ->
+    atom.workspace.open(fileInfo.filePath, {
+      initialLine: fileInfo.range.start.row
+    })
+
+  openFileForCodePeek: (file) ->
     atom.workspace.open(file.filePath, {
       initialLine: file.initialLine
       activatePane: false
