@@ -16,11 +16,8 @@ module.exports = CodePeek =
 
     @previousFunctionName = null
 
-    # Events subscribed to in atom's system can be easily cleaned up with a
-    # CompositeDisposable
     @subscriptions = new CompositeDisposable
 
-    # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-text-editor',
       'code-peek:peekFunction': => @peekFunction()
 
@@ -39,7 +36,9 @@ module.exports = CodePeek =
       @toggleCodePeekOff.bind(@)
     )
 
-    # @subscriptions.add @codePeekView.onSelectFile(@openFile)
+    @subscriptions.add @codePeekView.onSelectFile(
+      @openFileForCodePeek.bind(@)
+    )
 
   deactivate: ->
     @panel.destroy()
@@ -71,7 +70,10 @@ module.exports = CodePeek =
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
+    @scanWorkspace(regExp, fileType)
 
+
+  scanWorkspace: (regExp, fileType) ->
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
       initialLine = 0
 
@@ -92,7 +94,7 @@ module.exports = CodePeek =
         atom.notifications.addWarning("Could not find function \
           #{functionName} in project")
         return
-      # @codePeekView.addFiles(@matchingFiles)
+      @codePeekView.addFiles(@matchingFiles)
       @openFileForCodePeek(@matchingFiles[0])
 
   openEntireFile: (fileInfo) ->
@@ -101,6 +103,8 @@ module.exports = CodePeek =
     })
 
   openFileForCodePeek: (file) ->
+    if not file? or not file.filePath?
+      return
     atom.workspace.open(file.filePath, {
       initialLine: file.initialLine
       activatePane: false

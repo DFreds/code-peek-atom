@@ -1,3 +1,6 @@
+## 1.4.0 - Matching files listing
+* Added matching files list that allows quick switching between all files that have a match
+
 ## 1.3.0 - UI changes, configuration setting
 * Added check icon to save and close file
 * Added code icon to view entire file that contains function

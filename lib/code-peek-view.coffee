@@ -16,12 +16,11 @@ class CodePeekView extends View
           @span outlet: 'closeIcon', class: 'icon icon-x close-icon'
 
       @section class: 'input-block', =>
-        # @div class:
-        #'input-block-item input-block-item--flex editor-container', =>
-        @div class: 'input-block-item input-block-item editor-container', =>
+        @div class: 'input-block-item--flex editor-container', =>
           @subview 'textEditorView', new TextEditorView(editor: peekEditor)
-        # @div class: 'input-block-item', =>
-        #   @ol class: 'list-group', outlet: 'list'
+        @div class: 'input-block-item', =>
+          @span class: 'matching-files-label', 'Matching Files'
+          @ol class: 'list-group matching-files-list', outlet: 'list'
 
   initialize: ->
     @subscriptions = new CompositeDisposable
@@ -64,9 +63,6 @@ class CodePeekView extends View
   destroy: ->
     @subscriptions.dispose()
 
-  # onSelectFile: (callback) ->
-  #   @emitter.on 'select-file', callback
-
   onCheckIconClicked: (callback) ->
     @emitter.on 'check-icon-clicked', callback
 
@@ -75,6 +71,9 @@ class CodePeekView extends View
 
   onCloseIconClicked: (callback) ->
     @emitter.on 'close-icon-clicked', callback
+
+  onSelectFile: (callback) ->
+    @emitter.on 'select-file', callback
 
   setupForEditing: (functionInfo, originalTextEditor) ->
     @text = functionInfo.text
@@ -96,20 +95,27 @@ class CodePeekView extends View
   detachTextEditorView: () =>
     @textEditor = null
 
-  # addFiles: (filesToAdd) =>
-    # $(@list).empty()
-    # for file in filesToAdd
-    #   fileName = file.filePath.replace(/^.*[\\\/]/, '')
-    #
-    #   listElement = $("<li>#{fileName}</li>").addClass("test-class")
-    #   # listElement.click =>
-    #   #   @emitter.emit 'select-file', file
-    #   # listElement = document.createElement('li')
-    #   # #listElement.setAttribute("id", @items.length - 1)
-    #   # listElement.textContent = fileName
-    #   # listElement.classList.add("test-class")
-    #
-    #   @list.append(listElement)
+  addFiles: (filesToAdd) =>
+    $(@list).empty()
+    for file, index in filesToAdd
+      fileName = file.filePath.replace(/^.*[\\\/]/, '')
+
+      listElement = $("<li id='#{index}'>#{fileName}</li>")
+      listElement.addClass("list-item")
+
+      if index is 0
+        listElement.addClass("matching-files-selected")
+
+      @list.append(listElement)
+
+    @list.on 'click', (e) =>
+      if not e.target? or e.target.nodeName is not "LI"
+        return
+
+      $('li.matching-files-selected').removeClass('matching-files-selected')
+      e.target.className = "matching-files-selected"
+
+      @emitter.emit 'select-file', filesToAdd[e.target.id]
 
   isModified: ->
     if @textEditor? and @originalTextEditor?
