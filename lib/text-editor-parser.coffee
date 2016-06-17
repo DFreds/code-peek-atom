@@ -37,7 +37,6 @@ class TextEditorParser
     endOfLineColumn = 0
 
     while true
-      # get line text at current row
       line = @textEditor.lineTextForBufferRow(currRow)
 
       # determine end of line column
@@ -59,4 +58,3 @@ class TextEditorParser
     functionRange = new Range([startingRow, 0], [currRow, endOfLineColumn])
     functionText = @textEditor.getTextInBufferRange(functionRange)
     return new FunctionInfo(functionText, functionRange)
-    #return @textEditor.getTextInBufferRange(functionRange)
