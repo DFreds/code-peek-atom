@@ -51,7 +51,6 @@ This can be edited by defining key bindings as shown below.
 ```
 
 # Coming Soon
-* Multiple files with same function definition
 * Additional language support
   * HTML/CSS
   * C++ (standard style function definitions)
