@@ -111,18 +111,20 @@ module.exports = CodePeek =
     @panel.show()
 
   toggleCodePeekOff: (shouldSave) ->
-    if @codePeekView.isModified() and not shouldSave
-      chosen = atom.confirm({
-        message: 'This file has changes. Do you want to save them?'
-        detailedMessage: "Your changes will be lost if you close this item\
-          without saving."
-        buttons: ["Save", "Cancel", "Don't save"]
-      })
+    if @codePeekView.isModified() and not
+      shouldSave and
+      atom.config.get("code-peek.askIfSaveOnModified")
+        chosen = atom.confirm({
+          message: 'This file has changes. Do you want to save them?'
+          detailedMessage: "Your changes will be lost if you close this item\
+            without saving."
+          buttons: ["Save", "Cancel", "Don't save"]
+        })
 
-      switch chosen
-        when 0 then shouldSave = true
-        when 1 then return
-        when 2 then shouldSave = false
+        switch chosen
+          when 0 then shouldSave = true
+          when 1 then return
+          when 2 then shouldSave = false
 
     @codePeekView.saveChanges() if shouldSave
     @codePeekView.detachTextEditorView()

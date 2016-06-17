@@ -22,5 +22,12 @@
   },
   "dependencies": {
     "atom-space-pen-views": "^2.1.0"
+  },
+  "configSchema": {
+    "askIfSaveOnModified": {
+      "type": "boolean",
+      "default": true,
+      "description": "When a file is modified and the code peek panel is closed without saving, open a dialogue confirming that changes will be lost."
+    }
   }
 }
