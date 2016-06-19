@@ -1,8 +1,5 @@
 TODO write unit tests
 TODO set up travis build
-
-Future release stuff
-TODO tabs or some other mechanism to switch between files when multiple matching files
-TODO DEFER cache location of functions for quicker opening
-TODO DEFER support white space languages like python, coffeescript
+TODO cache location of functions for quicker opening
+TODO support white space languages like python, coffeescript
     *editor.getTabLength() and editor.getSoftTabs() could help
