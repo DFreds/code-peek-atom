@@ -56,9 +56,6 @@ class CodePeekView extends View
     @closeIcon.on 'click', =>
       @emitter.emit 'close-icon-clicked', false
 
-    # @saveButton.on 'click', @saveChanges
-    # @closeButton.on 'click', @detachTextEditorView
-
   # Tear down any state and detach
   destroy: ->
     @subscriptions.dispose()
