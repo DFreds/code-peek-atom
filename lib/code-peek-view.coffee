@@ -94,6 +94,7 @@ class CodePeekView extends View
 
   addFiles: (filesToAdd) =>
     $(@list).empty()
+    @list.off 'click'
     for file, index in filesToAdd
       fileName = file.filePath.replace(/^.*[\\\/]/, '')
 
@@ -104,6 +105,10 @@ class CodePeekView extends View
         listElement.addClass("matching-files-selected")
 
       @list.append(listElement)
+
+    if filesToAdd.length is 1
+      # do not add a click handler
+      return
 
     @list.on 'click', (e) =>
       if not e.target? or e.target.nodeName is not "LI"
