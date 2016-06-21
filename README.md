@@ -38,8 +38,17 @@ apm install code-peek
 ```
 Or search for <code>code-peek</code> in the Atom settings view.
 
+# Configuration
+Code Peek provides two configuration options.
+
+### Ask If Save On Modified
+By default, clicking the "Close without saving" button after a file is modified using Code Peek will ask the user if they want to save their changes. This configuration option can be toggled off to stop the dialogue box from appearing.
+
+### Max Code Peek Height
+This is the maximum size of the Code Peek panel. It is set to 200px by default and can be set anywhere between 100px and 800px.
+
 # Key Bindings
-The default <code>cmd-alt-e</code> or <code>ctrl-alt-e</code>will toggle code-peek while the cursor is over a function of a supported type.
+The default <code>cmd-alt-e</code> or <code>ctrl-alt-e</code> will toggle code-peek while the cursor is over a function of a supported type.
 
 This can be edited by defining key bindings as shown below.
 
