@@ -15,9 +15,7 @@ var testFunction3 = function () {
   test.functionBracketsOnOwnLine();
 };
 
-function functionOnOneLine() {
-  console.log('test');
-}
+function functionOnOneLine() {  console.log('test'); }
 
 function functionDoesNotExist() {
   test.nonExistent();

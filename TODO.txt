@@ -1,5 +1,2 @@
 TODO write unit tests
 TODO set up travis build
-TODO cache location of functions for quicker opening
-TODO support white space languages like python, coffeescript
-    *editor.getTabLength() and editor.getSoftTabs() could help

@@ -16,12 +16,14 @@ class SupportedFiles
     'php':
       regExpStr: 'function\\s*REPLACE\\s*\\('
       isTabBased: false
-    # 'coffee':
-    #   regExpStr: ''
-    #   isTabBased: true
-    # 'py':
-    #   regExpStr: 'def\\s*REPLACE\\s*\\('
-    #   isTabBased: true
+    'coffee':
+      # TODO simplify
+      regExpStr: '(REPLACE\\s*(:|=)\\s*\\([\\,\\s\\w]*\\)\\s*(=>|->))|\
+      (REPLACE\\s*(:|=)\\s*(=>|->))'
+      isTabBased: true
+    'py':
+      regExpStr: 'def\\s*REPLACE\\s*\\('
+      isTabBased: true
     'java':
       regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
       isTabBased: false

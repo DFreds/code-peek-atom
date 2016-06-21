@@ -14,11 +14,13 @@ Currently, supported files include:
 * PHP
 * Java
 * C#
+* Python
+* Coffee
 
 More will be coming soon.
 
 ## Adding A Language
-If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases. Currently, Code Peek only supports languages that use curly brackets to indicate the start and end of a function. In the future, tab based languages such as Python will be supported.
+If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases. Currently, Code Peek supports languages that use curly brackets to indicate the start and end of a function as well as tab based languages such as Python.
 
 Examples for a function called REPLACE:
 * JS - /function\s\*REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
@@ -27,6 +29,8 @@ Examples for a function called REPLACE:
 * PHP - /function\s\*REPLACE\s\*\\(/
 * Java - /(public|private|protected)\s\*[\w\s\S]\*REPLACE\s\*\\(/
 * C# - /(public|private|protected)\s\*[\w\s\S]\*REPLACE\s\*\\(/
+* Python - /def\s\*REPLACE\s\*\(/
+* Coffee - (REPLACE\s\*(:|=)\s\*\\([\\,\s\w]\*\\)\s\*(=>|->))|(REPLACE\s\*(:|=)\s\*(=>|->))
 
 # Installation
 ```
@@ -55,7 +59,5 @@ This can be edited by defining key bindings as shown below.
   * HTML/CSS
   * C++ (standard style function definitions)
   * C
-  * Python
-  * Coffee
 
 ### Full change log [here](./CHANGELOG.md).

@@ -1,3 +1,7 @@
+## 1.4.2 - Python and CoffeeScript support
+* Support for Python
+* Support for CoffeeScript
+
 ## 1.4.1 - Minor bug fix
 * Fixed issue where opening code peek on a function that had multiple matches before opening another code peek on a function that only had one match would reopen the previous code peek if the single file was clicked in the matching files list
 
