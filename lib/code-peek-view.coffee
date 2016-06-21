@@ -92,7 +92,7 @@ class CodePeekView extends View
     @textEditor.scrollToCursorPosition()
 
     height = atom.config.get("code-peek.maxCodePeekHeight")
-    $('.code-peek').css("max-height", height + "px")
+    #$('.code-peek').css("max-height", height + "px")
 
   detachTextEditorView: () =>
     @textEditor = null

@@ -1,8 +1,6 @@
-## 1.5.0 - Python and CoffeeScript support, UI changes, configuration setting
+## 1.4.2 - Python and CoffeeScript support
 * Support for Python
 * Support for CoffeeScript
-* Changed max height of code peek to 200px by default
-* Added configuration for setting the max height of the code peek panel in pixels. Values can range from 100px to 800px, with a default of 200px.
 
 ## 1.4.1 - Minor bug fix
 * Fixed issue where opening code peek on a function that had multiple matches before opening another code peek on a function that only had one match would reopen the previous code peek if the single file was clicked in the matching files list
