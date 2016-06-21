@@ -88,6 +88,8 @@ class CodePeekView extends View
       throw new Error "Not all parameters set"
 
     @textEditor.setText(@text)
+    @textEditor.setCursorBufferPosition([0, 0])
+    @textEditor.scrollToCursorPosition()
 
   detachTextEditorView: () =>
     @textEditor = null
