@@ -28,6 +28,13 @@
       "type": "boolean",
       "default": true,
       "description": "When a file is modified and the code peek panel is closed without saving, open a dialogue confirming that changes will be lost."
+    },
+    "maxCodePeekHeight": {
+      "type": "integer",
+      "default": 200,
+      "minimum": 100,
+      "maximum": 800,
+      "description": "Sets the maximum size of the code peek panel in pixels."
     }
   }
 }
