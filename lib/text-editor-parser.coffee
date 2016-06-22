@@ -64,7 +64,6 @@ class TextEditorParser
     return new FunctionInfo(functionText, functionRange)
 
   getFunctionInfoForTab: (startingRow) ->
-    # TODO handle if there is a line break with no tab
     tabText = @textEditor.getTabText()
 
     regExp = new RegExp("#{tabText}", "g")
