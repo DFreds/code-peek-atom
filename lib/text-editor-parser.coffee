@@ -1,5 +1,5 @@
 {Range} = require 'atom'
-FunctionInfo = require './function-info'
+FunctionInfo = require './data/function-info'
 
 module.exports =
 class TextEditorParser

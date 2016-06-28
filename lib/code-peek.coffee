@@ -1,7 +1,7 @@
 CodePeekView = require './code-peek-view'
 TextEditorParser = require './text-editor-parser'
 SupportedFiles = require './supported-files'
-FileInfo = require './file-info'
+FileInfo = require './data/file-info'
 {CompositeDisposable} = require 'atom'
 
 module.exports = CodePeek =
