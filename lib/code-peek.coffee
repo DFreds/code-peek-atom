@@ -11,10 +11,9 @@ module.exports = CodePeek =
 
   activate: ->
     @codePeekView = new CodePeekView()
-    # TODO make location configurable? top, bottom, left, right,
-    # header, footer, modal?
-    @panel = atom.workspace.addBottomPanel(item: @codePeekView)
-    @panel.hide()
+
+    @location = null
+    @panel = @createPanel()
 
     @previousFunctionName = null
 
@@ -27,6 +26,31 @@ module.exports = CodePeek =
     @panel.destroy()
     @subscriptions.dispose()
     @codePeekView.destroy()
+
+  createPanel: ->
+    if @panel? then @panel.destroy()
+
+    @location = atom.config.get("code-peek.codePeekLocation")
+
+    panel = null
+    switch @location
+      when "Bottom"
+        panel = atom.workspace.addBottomPanel(item: @codePeekView)
+      when "Top"
+        panel = atom.workspace.addTopPanel(item: @codePeekView)
+      when "Left"
+        panel = atom.workspace.addLeftPanel(item: @codePeekView)
+      when "Right"
+        panel = atom.workspace.addRightPanel(item: @codePeekView)
+      when "Header"
+        panel = atom.workspace.addHeaderPanel(item: @codePeekView)
+      when "Footer"
+        panel = atom.workspace.addFooterPanel(item: @codePeekView)
+      when "Modal"
+        panel = atom.workspace.addModalPanel(item: @codePeekView)
+
+    panel.hide()
+    return panel
 
   addAtomCommands: ->
     @subscriptions.add atom.commands.add 'atom-text-editor',
@@ -53,6 +77,10 @@ module.exports = CodePeek =
     )
 
   peekFunction: ->
+    if @location != atom.config.get("code-peek.codePeekLocation")
+      # recreate the panel if the setting changed
+      @panel = @createPanel()
+
     @matchingFiles = []
 
     textEditorParser = new TextEditorParser(
@@ -77,9 +105,9 @@ module.exports = CodePeek =
       return
 
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
-    @scanWorkspace(regExp, fileType)
+    @scanWorkspace(regExp, fileType, functionName)
 
-  scanWorkspace: (regExp, fileType) ->
+  scanWorkspace: (regExp, fileType, functionName) ->
     # TODO make paths configurable?
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
       initialLine = 0
@@ -100,7 +128,7 @@ module.exports = CodePeek =
       # finished scanning files
       if @matchingFiles.length is 0
         atom.notifications.addWarning("Could not find function \
-          #{functionName} in project")
+          \"#{functionName}\" in project")
         return
 
       # add files to list

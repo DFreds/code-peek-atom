@@ -28,6 +28,19 @@
       "type": "boolean",
       "default": true,
       "description": "When a file is modified and the code peek panel is closed without saving, open a dialogue confirming that changes will be lost."
+    },
+    "codePeekLocation": {
+      "type": "string",
+      "default": "Bottom",
+      "enum": [
+        "Bottom",
+        "Top",
+        "Left",
+        "Right",
+        "Header",
+        "Footer",
+        "Modal"
+      ]
     }
   }
 }

@@ -1,3 +1,6 @@
+## 1.4.3 - Configuration setting
+* Added configuration to specify location of code peek panel. Options include bottom (default), top, left, right, header, footer, and modal
+
 ## 1.4.2 - Python and CoffeeScript support
 * Support for Python
 * Support for CoffeeScript
