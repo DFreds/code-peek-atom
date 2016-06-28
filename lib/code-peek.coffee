@@ -11,6 +11,8 @@ module.exports = CodePeek =
 
   activate: ->
     @codePeekView = new CodePeekView()
+    # TODO make location configurable? top, bottom, left, right,
+    # header, footer, modal?
     @panel = atom.workspace.addBottomPanel(item: @codePeekView)
     @panel.hide()
 
@@ -18,12 +20,22 @@ module.exports = CodePeek =
 
     @subscriptions = new CompositeDisposable
 
+    @addAtomCommands()
+    @handleClickEvents()
+
+  deactivate: ->
+    @panel.destroy()
+    @subscriptions.dispose()
+    @codePeekView.destroy()
+
+  addAtomCommands: ->
     @subscriptions.add atom.commands.add 'atom-text-editor',
       'code-peek:peekFunction': => @peekFunction()
 
     @subscriptions.add atom.commands.add 'atom-text-editor',
       'code-peek:toggleCodePeekOff': => @toggleCodePeekOff(true)
 
+  handleClickEvents: ->
     @subscriptions.add @codePeekView.onCheckIconClicked(
       @toggleCodePeekOff.bind(@)
     )
@@ -39,11 +51,6 @@ module.exports = CodePeek =
     @subscriptions.add @codePeekView.onSelectFile(
       @openFileForCodePeek.bind(@)
     )
-
-  deactivate: ->
-    @panel.destroy()
-    @subscriptions.dispose()
-    @codePeekView.destroy()
 
   peekFunction: ->
     @matchingFiles = []
@@ -72,8 +79,8 @@ module.exports = CodePeek =
     regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
     @scanWorkspace(regExp, fileType)
 
-
   scanWorkspace: (regExp, fileType) ->
+    # TODO make paths configurable?
     atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
       initialLine = 0
 
@@ -90,11 +97,16 @@ module.exports = CodePeek =
       @matchingFiles.push(new FileInfo(matchingFile.filePath,
         initialLine))
     ).then =>
+      # finished scanning files
       if @matchingFiles.length is 0
         atom.notifications.addWarning("Could not find function \
           #{functionName} in project")
         return
+
+      # add files to list
       @codePeekView.addFiles(@matchingFiles)
+
+      # open the first file in code peek
       @openFileForCodePeek(@matchingFiles[0])
 
   openEntireFile: (fileInfo) ->
@@ -110,16 +122,25 @@ module.exports = CodePeek =
       activatePane: false
       activateItem: false
     }).then (matchingTextEditor) =>
+      # finished opening file
       @startEditing(matchingTextEditor)
 
   startEditing: (matchingTextEditor) ->
+    # hide the panel and save changes if it already visible
     if @panel.isVisible()
       @toggleCodePeekOff(true)
 
     textEditorParser = new TextEditorParser(matchingTextEditor)
-    functionInfo = textEditorParser.getFunctionInfo(
-      matchingTextEditor.getCursorBufferPosition().row,
-      SupportedFiles.isTabBased(textEditorParser.getFileType()))
+
+    functionInfo = null
+    if SupportedFiles.isTabBased(textEditorParser.getFileType())
+      functionInfo = textEditorParser.getFunctionInfoForTab(
+        matchingTextEditor.getCursorBufferPosition().row
+      )
+    else
+      functionInfo = textEditorParser.getFunctionInfoForBracket(
+        matchingTextEditor.getCursorBufferPosition().row
+      )
 
     @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
     @toggleCodePeekOn()
@@ -129,6 +150,7 @@ module.exports = CodePeek =
     @panel.show()
 
   toggleCodePeekOff: (shouldSave) ->
+    # determine if we should ask them if they are sure they don't want to save
     if @codePeekView.isModified() and not
       shouldSave and
       atom.config.get("code-peek.askIfSaveOnModified")
@@ -145,6 +167,8 @@ module.exports = CodePeek =
           when 2 then shouldSave = false
 
     @codePeekView.saveChanges() if shouldSave
+
+    # toggle code peek off and reset variables
     @codePeekView.detachTextEditorView()
     @panel.hide()
     @previousFunctionName = null

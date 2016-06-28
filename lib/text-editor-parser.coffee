@@ -15,6 +15,7 @@ class TextEditorParser
     return splitTitle[splitTitle.length - 1]
 
   getWordContainingCursor: ->
+    # TODO make this more robust so that dashes and underscores are supported
     return null if not @textEditor?
 
     initial = @textEditor.getCursorBufferPosition()
@@ -29,17 +30,14 @@ class TextEditorParser
 
     return @textEditor.getTextInBufferRange(new Range(start, end))
 
-  getFunctionInfo: (startingRow, isTabBased) ->
-    if (isTabBased)
-      functionInfo = @getFunctionInfoForTab(startingRow)
-      return functionInfo
-
+  getFunctionInfoForBracket: (startingRow) ->
     initial = @textEditor.getCursorBufferPosition()
 
     openBrackets = 0
     currRow = startingRow
     endOfLineColumn = 0
 
+    # safety check in case it fails to break
     while currRow <= @textEditor.getLastBufferRow()
       line = @textEditor.lineTextForBufferRow(currRow)
 
@@ -74,6 +72,7 @@ class TextEditorParser
     currRow = startingRow + 1
     initial = @textEditor.getCursorBufferPosition()
 
+    # safety check in case it fails to break
     while currRow <= @textEditor.getLastBufferRow()
       line = @textEditor.lineTextForBufferRow(currRow)
 

@@ -25,18 +25,7 @@ class CodePeekView extends View
   initialize: ->
     @subscriptions = new CompositeDisposable
 
-    saveAndCloseKeymap = atom.keymaps.findKeyBindings({
-      command: 'code-peek:toggleCodePeekOff'
-    })
-
-    @subscriptions.add atom.tooltips.add @checkIcon,
-      title: "Save and close (#{saveAndCloseKeymap[0].keystrokes})"
-
-    @subscriptions.add atom.tooltips.add @codeIcon,
-      title: "See entire file"
-
-    @subscriptions.add atom.tooltips.add @closeIcon,
-      title: "Close without saving"
+    @addTooltips()
 
     @text = null
     @editRange = null
@@ -46,19 +35,43 @@ class CodePeekView extends View
 
     @emitter = new Emitter
 
+    @onClickIcons()
+
+  # Tear down any state and detach
+  destroy: ->
+    @subscriptions.dispose()
+
+  addTooltips: ->
+    # find the save and close keymap in case the user changed it
+    saveAndCloseKeymap = atom.keymaps.findKeyBindings({
+      command: 'code-peek:toggleCodePeekOff'
+    })
+
+    # add all tooltips
+    @subscriptions.add atom.tooltips.add @checkIcon,
+      title: "Save and close (#{saveAndCloseKeymap[0].keystrokes})"
+
+    @subscriptions.add atom.tooltips.add @codeIcon,
+      title: "See entire file"
+
+    @subscriptions.add atom.tooltips.add @closeIcon,
+      title: "Close without saving"
+
+  onClickIcons: ->
+    # emit true so that it saves the changes
     @checkIcon.on 'click', =>
       @emitter.emit 'check-icon-clicked', true
+
+    # emit the file path and range so it can be opened in a new window
     @codeIcon.on 'click', =>
       fileInfo =
         filePath: @originalTextEditor.getPath()
         range: @editRange
       @emitter.emit 'code-icon-clicked', fileInfo
+
+    # emit false so that it does not save the changes
     @closeIcon.on 'click', =>
       @emitter.emit 'close-icon-clicked', false
-
-  # Tear down any state and detach
-  destroy: ->
-    @subscriptions.dispose()
 
   onCheckIconClicked: (callback) ->
     @emitter.on 'check-icon-clicked', callback
@@ -73,6 +86,12 @@ class CodePeekView extends View
     @emitter.on 'select-file', callback
 
   setupForEditing: (functionInfo, originalTextEditor) ->
+    if not functionInfo.text or not
+      functionInfo.range or not
+      originalTextEditor
+        atom.notifications.addError("Could not setup for editing")
+        return
+
     @text = functionInfo.text
     @editRange = functionInfo.range
     @originalTextEditor = originalTextEditor
@@ -91,34 +110,43 @@ class CodePeekView extends View
     @textEditor.setCursorBufferPosition([0, 0])
     @textEditor.scrollToCursorPosition()
 
-    height = atom.config.get("code-peek.maxCodePeekHeight")
-    #$('.code-peek').css("max-height", height + "px")
+    # TODO attempt at maximizing size of code peek, doesn't work in windows 10
+    # height = atom.config.get("code-peek.maxCodePeekHeight")
+    # $('.code-peek').css("max-height", height + "px")
 
   detachTextEditorView: () =>
     @textEditor = null
 
   addFiles: (filesToAdd) =>
+    # wipe out all the old files
     $(@list).empty()
+
+    # remove the click handler
     @list.off 'click'
+
+    # add each file to the list element
     for file, index in filesToAdd
       fileName = file.filePath.replace(/^.*[\\\/]/, '')
 
       listElement = $("<li id='#{index}'>#{fileName}</li>")
       listElement.addClass("list-item")
 
+      # default the first file as selected
       if index is 0
         listElement.addClass("matching-files-selected")
 
       @list.append(listElement)
 
     if filesToAdd.length is 1
-      # do not add a click handler
+      # do not add a click handler if only one file
       return
 
+    # add click handler
     @list.on 'click', (e) =>
       if not e.target? or e.target.nodeName is not "LI"
         return
 
+      # remove the old selected file and make the new file selected
       $('li.matching-files-selected').removeClass('matching-files-selected')
       e.target.className = "matching-files-selected"
 
