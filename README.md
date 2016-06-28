@@ -43,7 +43,7 @@ Or search for <code>code-peek</code> in the Atom settings view.
 ### Ask If Save On Modified
 By default, clicking the "Close without saving" button after a file is modified using Code Peek will ask the user if they want to save their changes. This configuration option can be toggled off to stop the dialogue box from appearing.
 
-### Code Peek location
+### Code Peek Location
 This setting dictates where the Code Peek panel should appear. By default, it will appear at the bottom of the screen. Additional options include top, left, right, header, footer, and modal.
 
 ### Max Height
