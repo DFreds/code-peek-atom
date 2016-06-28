@@ -111,8 +111,8 @@ class CodePeekView extends View
     @textEditor.scrollToCursorPosition()
 
     # TODO attempt at maximizing size of code peek, doesn't work in windows 10
-    # height = atom.config.get("code-peek.maxCodePeekHeight")
-    # $('.code-peek').css("max-height", height + "px")
+    maxHeight = atom.config.get("code-peek.maxHeight")
+    $('.editor-container').css("max-height", maxHeight + "px") # height or max height?
 
   detachTextEditorView: () =>
     @textEditor = null

@@ -46,6 +46,9 @@ By default, clicking the "Close without saving" button after a file is modified 
 ### Code Peek location
 This setting dictates where the Code Peek panel should appear. By default, it will appear at the bottom of the screen. Additional options include top, left, right, header, footer, and modal.
 
+### Max Height
+By default, the maximum size of the Code Peek panel is 300px. This configuration option can be set to make the panel bigger or smaller, and supports a range from 200px to 800px.
+
 # Key Bindings
 The default <code>cmd-alt-e</code> or <code>ctrl-alt-e</code> will toggle code-peek while the cursor is over a function of a supported type.
 

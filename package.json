@@ -41,6 +41,12 @@
         "Footer",
         "Modal"
       ]
+    },
+    "maxHeight": {
+      "type": "integer",
+      "default": 300,
+      "minimum": 200,
+      "maximum": 800
     }
   }
 }
