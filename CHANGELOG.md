@@ -1,6 +1,9 @@
+## 1.4.4 - Configuration settings
+* Added configuration setting to specify maximum width of the panel. Ranges from 200px to 1000px, with 500px being the default. Only applies when location is left or right
+
 ## 1.4.3 - Configuration settings
 * Added configuration to specify location of code peek panel. Options include bottom (default), top, left, right, header, footer, and modal
-* Added configuration setting to specify maximum height of the panel. Ranges from 200px to 800px, with 300px being the default. 
+* Added configuration setting to specify maximum height of the panel. Ranges from 200px to 800px, with 300px being the default. Only applies when location is top, bottom, header, footer, or modal.
 
 ## 1.4.2 - Python and CoffeeScript support
 * Support for Python

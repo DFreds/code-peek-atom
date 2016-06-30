@@ -26,11 +26,12 @@
   "configSchema": {
     "askIfSaveOnModified": {
       "type": "boolean",
-      "default": true,
-      "description": "When a file is modified and the code peek panel is closed without saving, open a dialogue confirming that changes will be lost."
+      "description": "When a file is modified and the code peek panel is closed without saving, open a dialogue confirming that changes will be lost.",
+      "default": true
     },
     "codePeekLocation": {
       "type": "string",
+      "description": "Location of the code peek panel when it appears.",
       "default": "Bottom",
       "enum": [
         "Bottom",
@@ -44,9 +45,17 @@
     },
     "maxHeight": {
       "type": "integer",
+      "description": "Max height of the panel. Ranges from 200 to 800 pixels. If left or right is chosen for the location, this has no effect.",
       "default": 300,
       "minimum": 200,
       "maximum": 800
+    },
+    "maxWidth": {
+      "type": "integer",
+      "description": "Max width of the panel. Ranges from 200 to 1000 pixels. If top, bottom, header, footer, or modal is chosen for the location, this has no effect.",
+      "default": 500,
+      "minimum": 200,
+      "maximum": 1000
     }
   }
 }

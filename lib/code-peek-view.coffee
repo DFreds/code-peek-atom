@@ -102,7 +102,7 @@ class CodePeekView extends View
     @textEditor = @textEditorView.getModel()
     @textEditor.setGrammar(@originalTextEditor.getGrammar())
 
-  attachTextEditorView: ->
+  attachTextEditorView: (location) ->
     if not @text? or not @editRange? or not @originalTextEditor?
       throw new Error "Not all parameters set"
 
@@ -110,9 +110,15 @@ class CodePeekView extends View
     @textEditor.setCursorBufferPosition([0, 0])
     @textEditor.scrollToCursorPosition()
 
-    # TODO attempt at maximizing size of code peek, doesn't work in windows 10
-    maxHeight = atom.config.get("code-peek.maxHeight")
-    $('.editor-container').css("max-height", maxHeight + "px") # height or max height?
+    switch location
+      when "Bottom", "Top", "Header", "Footer", "Modal"
+        maxHeight = atom.config.get("code-peek.maxHeight")
+        $('.code-peek').removeAttr("style")
+        $('.editor-container').css("max-height", maxHeight + "px")
+      when "Left", "Right"
+        maxWidth = atom.config.get("code-peek.maxWidth")
+        $('.editor-container').removeAttr("style")
+        $('.code-peek').css("max-width", maxWidth + "px")
 
   detachTextEditorView: () =>
     @textEditor = null

@@ -174,7 +174,7 @@ module.exports = CodePeek =
     @toggleCodePeekOn()
 
   toggleCodePeekOn: ->
-    @codePeekView.attachTextEditorView()
+    @codePeekView.attachTextEditorView(@location)
     @panel.show()
 
   toggleCodePeekOff: (shouldSave) ->
