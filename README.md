@@ -50,7 +50,7 @@ This setting dictates where the Code Peek panel should appear. By default, it wi
 By default, the maximum height of the Code Peek panel is 300px. This configuration option can be set to change the height, and supports a range from 200px to 800px. This only affects panels where the location is top, bottom, header, footer, or modal.
 
 ### Max Width
-By default, the maximum width of the Code Peek panel is 500px. This configuration option can be set to change the width, and supports a range from 200px to 1000px. This only affects panels where the location is left or right. 
+By default, the maximum width of the Code Peek panel is 500px. This configuration option can be set to change the width, and supports a range from 200px to 1000px. This only affects panels where the location is left or right.
 
 # Key Bindings
 The default <code>cmd-alt-e</code> or <code>ctrl-alt-e</code> will toggle code-peek while the cursor is over a function of a supported type.
@@ -65,13 +65,10 @@ This can be edited by defining key bindings as shown below.
 '.platform-linux atom-text-editor, .platform-win32 atom-text-editor':
   'ctrl-alt-e': 'code-peek:peekFunction'
   'shift-escape': 'code-peek:toggleCodePeekOff'
-
 ```
 
 # Coming Soon
 * Additional language support
   * HTML/CSS
-  * C++ (standard style function definitions)
-  * C
 
 ### Full change log [here](./CHANGELOG.md).
