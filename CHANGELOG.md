@@ -1,5 +1,6 @@
 ## 1.4.4 - Configuration settings
 * Added configuration setting to specify maximum width of the panel. Ranges from 200px to 1000px, with 500px being the default. Only applies when location is left or right
+* Fixed issue with C#/Java regex where it was finding usages of functions, not just the declarations
 
 ## 1.4.3 - Configuration settings
 * Added configuration to specify location of code peek panel. Options include bottom (default), top, left, right, header, footer, and modal

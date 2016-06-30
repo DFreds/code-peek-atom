@@ -5,10 +5,8 @@ class SupportedFiles
       regExp: ///
         # matches 'function REPLACE('
         function \s* REPLACE \s* \(
-
           # or
           |
-
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
       ///
@@ -18,10 +16,8 @@ class SupportedFiles
       regExp: ///
         # matches 'function REPLACE('
         function \s* REPLACE \s* \(
-
           # or
           |
-
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
       ///
@@ -31,10 +27,8 @@ class SupportedFiles
       regExp: ///
         # matches 'function REPLACE('
         function \s* REPLACE \s* \(
-
           # or
           |
-
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
       ///
@@ -48,15 +42,15 @@ class SupportedFiles
       isTabBased: false
 
     'coffee':
-      # TODO simplify
       regExp: ///
+        # matches 'REPLACE: ' or 'REPLACE ='
+        REPLACE \s* (:|=) \s*
+        # optionally matches any arguments
         (
-          REPLACE \s* (:|=) \s* \( [\, \s \w]* \) \s* (=>|->)
-        )
-          |
-        (
-          REPLACE \s* (:|=) \s* (=>|->)
-        )
+          \( [\, \s \w]* \)
+        ) ?
+        # matches '->' or '=>' to end the function
+        \s* (=>|->)
       ///
       isTabBased: true
 
@@ -67,13 +61,15 @@ class SupportedFiles
       ///
       isTabBased: true
 
+    # TODO improve java and c# so it can match something like List<string>
+    # do not use \S
     'java':
       #regExp: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
       regExp: ///
-        # matches public or private or protected)
+        # matches public, private, or protected
         (public|private|protected) \s*
         # matches any type of return value or function property
-        [\w\s\S]*
+        [\w\s]*
         # matches 'REPLACE ('
         REPLACE \s* \(
       ///
@@ -89,10 +85,10 @@ class SupportedFiles
 
     'cs':
       regExp: ///
-        # matches public or private or protected)
+        # matches public, private, or protected
         (public|private|protected) \s*
         # matches any type of return value or function property
-        [\w\s\S]*
+        [\w\s]*
         # matches 'REPLACE ('
         REPLACE \s* \(
       ///
