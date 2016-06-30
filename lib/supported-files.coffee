@@ -2,39 +2,100 @@ module.exports =
 class SupportedFiles
   @types =
     'js':
-      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*(=|:)\\s*\
-        function\\s*\\('
+      regExp: ///
+        # matches 'function REPLACE('
+        function \s* REPLACE \s* \(
+
+          # or
+          |
+
+        # matches 'REPLACE = function (' or 'REPLACE: function ('
+        REPLACE \s* (=|:) \s* function \s* \(
+      ///
       isTabBased: false
+
     'ts':
-      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*(=|:)\\s*\
-        function\\s*\\('
+      regExp: ///
+        # matches 'function REPLACE('
+        function \s* REPLACE \s* \(
+
+          # or
+          |
+
+        # matches 'REPLACE = function (' or 'REPLACE: function ('
+        REPLACE \s* (=|:) \s* function \s* \(
+      ///
       isTabBased: false
+
     'jsx':
-      regExpStr: 'function\\s*REPLACE\\s*\\(|REPLACE\\s*(=|:)\\s*\
-        function\\s*\\('
+      regExp: ///
+        # matches 'function REPLACE('
+        function \s* REPLACE \s* \(
+
+          # or
+          |
+
+        # matches 'REPLACE = function (' or 'REPLACE: function ('
+        REPLACE \s* (=|:) \s* function \s* \(
+      ///
       isTabBased: false
+
     'php':
-      regExpStr: 'function\\s*REPLACE\\s*\\('
+      regExp: ///
+        # matches 'function REPLACE ('
+        function \s* REPLACE \s* \(
+      ///
       isTabBased: false
+
     'coffee':
       # TODO simplify
-      regExpStr: '(REPLACE\\s*(:|=)\\s*\\([\\,\\s\\w]*\\)\\s*(=>|->))|\
-      (REPLACE\\s*(:|=)\\s*(=>|->))'
+      regExp: ///
+        (
+          REPLACE \s* (:|=) \s* \( [\, \s \w]* \) \s* (=>|->)
+        )
+          |
+        (
+          REPLACE \s* (:|=) \s* (=>|->)
+        )
+      ///
       isTabBased: true
+
     'py':
-      regExpStr: 'def\\s*REPLACE\\s*\\('
+      regExp: ///
+        # matches 'def REPLACE('
+        def \s* REPLACE \s* \(
+      ///
       isTabBased: true
+
     'java':
-      regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
+      #regExp: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
+      regExp: ///
+        # matches public or private or protected)
+        (public|private|protected) \s*
+        # matches any type of return value or function property
+        [\w\s\S]*
+        # matches 'REPLACE ('
+        REPLACE \s* \(
+      ///
       isTabBased: false
+
     # 'c':
-    #   regExpStr: ''
+    #   regExp: ''
     #   isTabBased: false
+
     # 'cpp':
-    #   regExpStr: ''
+    #   regExp: ''
     #   isTabBased: false
+
     'cs':
-      regExpStr: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
+      regExp: ///
+        # matches public or private or protected)
+        (public|private|protected) \s*
+        # matches any type of return value or function property
+        [\w\s\S]*
+        # matches 'REPLACE ('
+        REPLACE \s* \(
+      ///
       isTabBased: false
 
   @isSupported: (fileType) ->
@@ -50,5 +111,18 @@ class SupportedFiles
     if not @types[fileType] then throw new Error "File type #{fileType} is not \
       supported"
 
-    regExpStr = @types[fileType].regExpStr
-    return new RegExp(regExpStr.replace /REPLACE/g, functionName)
+    # get the regular expression for the file type
+    regExp = @types[fileType].regExp
+
+    # convert to string so we can replace
+    regExpStr = regExp.toString()
+
+    # change all occurances of REPLACE placeholder to the actual function name
+    regExpStr = regExpStr.replace /REPLACE/g, functionName
+
+    # get rid of leading and ending slashes or else they will be escaped
+    # when converting back to a regular expression
+    regExpStr = regExpStr.replace /\//g, ""
+
+    # convert back to regular expression
+    return new RegExp(regExpStr)
