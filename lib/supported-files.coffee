@@ -4,7 +4,7 @@ class SupportedFiles
     'js':
       regExp: ///
         # matches 'function REPLACE('
-        function \s* REPLACE \s* \(
+        function \s+ REPLACE \s* \(
           # or
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
@@ -15,7 +15,7 @@ class SupportedFiles
     'ts':
       regExp: ///
         # matches 'function REPLACE('
-        function \s* REPLACE \s* \(
+        function \s+ REPLACE \s* \(
           # or
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
@@ -26,7 +26,7 @@ class SupportedFiles
     'jsx':
       regExp: ///
         # matches 'function REPLACE('
-        function \s* REPLACE \s* \(
+        function \s+ REPLACE \s* \(
           # or
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
@@ -37,7 +37,7 @@ class SupportedFiles
     'php':
       regExp: ///
         # matches 'function REPLACE ('
-        function \s* REPLACE \s* \(
+        function \s+ REPLACE \s* \(
       ///
       isTabBased: false
 
@@ -57,21 +57,31 @@ class SupportedFiles
     'py':
       regExp: ///
         # matches 'def REPLACE('
-        def \s* REPLACE \s* \(
+        def \s+ REPLACE \s* \(
       ///
       isTabBased: true
 
-    # TODO improve java and c# so it can match something like List<string>
-    # do not use \S
     'java':
-      #regExp: '(public|private|protected)\\s*[\\w\\s\\S]*REPLACE\\s*\\('
       regExp: ///
-        # matches public, private, or protected
-        (public|private|protected) \s*
-        # matches any type of return value or function property
-        [\w\s]*
-        # matches 'REPLACE ('
-        REPLACE \s* \(
+        # match one or more of the following
+        (
+          # match one or more attributes
+          (public|private|protected|static|final|
+          native|synchronized|abstract|transient)+
+          \s
+        )+
+
+        # match $ _ < > [ ] , whitespace or a word any number of times
+        [\$_\w\<\>\[\]\,\s]*
+
+        # any whitespace character one or more times
+        \s+
+
+        # match REPLACE
+        REPLACE
+
+        # match ( exactly
+        \(
       ///
       isTabBased: false
 
@@ -85,12 +95,25 @@ class SupportedFiles
 
     'cs':
       regExp: ///
-        # matches public, private, or protected
-        (public|private|protected) \s*
-        # matches any type of return value or function property
-        [\w\s]*
-        # matches 'REPLACE ('
-        REPLACE \s* \(
+        # match one or more of the following
+        (
+          # match one or more attributes
+          (public|private|protected|static|readonly|
+          override|abstract|virtual|async)+
+          \s
+        )+
+
+        # match $ _ < > [ ] , whitespace or a word any number of times
+        [\$_\w\<\>\[\]\,\s]*
+
+        # any whitespace character one or more times
+        \s+
+
+        # match REPLACE
+        REPLACE
+
+        # match ( exactly
+        \(
       ///
       isTabBased: false
 

@@ -8,6 +8,6 @@ public static string func2(string testString)
   test.func3();
 }
 
-protected static ArrayList<String> func3(int test, int test) {
+protected static ArrayList<MyType<String, String>> func3(int test, int test) {
   System.out.println("Testing");
 }

@@ -15,6 +15,7 @@ namespace Test
     }
 }
 
+
 public class TestCs {
   public void test() {
     // blah
@@ -35,5 +36,10 @@ public class Testing {
   public string CallingTest2()
   {
     test2();
+    Tester(null, null);
+  }
+
+  public override abstract virtual async string Tester(string test, string test2) {
+    // something
   }
 }
