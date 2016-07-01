@@ -1,3 +1,6 @@
+## 1.4.5 - Java and C# regular expressions
+* Fixed bug with the Java and C# regular expression. Should now find any and all Java and C# functions.
+
 ## 1.4.4 - Configuration settings
 * Added configuration setting to specify maximum width of the panel. Ranges from 200px to 1000px, with 500px being the default. Only applies when location is left or right
 * Fixed issue with C#/Java regex where it was finding usages of functions, not just the declarations

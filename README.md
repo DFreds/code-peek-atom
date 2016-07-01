@@ -23,13 +23,13 @@ More will be coming soon.
 If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases. Currently, Code Peek supports languages that use curly brackets to indicate the start and end of a function as well as tab based languages such as Python.
 
 Examples for a function called REPLACE:
-* JS - /function\s\*REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
-* TS - /function\s\*REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
-* JSX - /function\s\*REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
-* PHP - /function\s\*REPLACE\s\*\\(/
-* Java - /(public|private|protected)\s\*[\w\s\S]\*REPLACE\s\*\\(/
-* C# - /(public|private|protected)\s\*[\w\s\S]\*REPLACE\s\*\\(/
-* Python - /def\s\*REPLACE\s\*\(/
+* JS - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
+* TS - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
+* JSX - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
+* PHP - /function\s\+REPLACE\s\*\\(/
+* Java - /((public|private|protected|static|final|native|synchronized|abstract|transient)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
+* C# - /((public|private|protected|static|readonly|override|abstract|virtual|async)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
+* Python - /def\s\+REPLACE\s\*\(/
 * Coffee - (REPLACE\s\*(:|=)\s\*\\([\\,\s\w]\*\\)\s\*(=>|->))|(REPLACE\s\*(:|=)\s\*(=>|->))
 
 # Installation
