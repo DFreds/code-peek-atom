@@ -1,4 +1,4 @@
-# Code Peek [![Build Status](https://travis-ci.org/DFreds/code-peek-atom.svg?branch=master)](https://travis-ci.org/DFreds/code-peek-atom)
+# Code Peek
 
 This package allows you to quickly peek and edit functions contained in other
 files instead of having to open the file separately. This was inspired by
