@@ -111,10 +111,13 @@ class CodePeekView extends View
     @textEditor.scrollToCursorPosition()
 
     switch location
+      # handle if the height matters
       when "Bottom", "Top", "Header", "Footer", "Modal"
         maxHeight = atom.config.get("code-peek.maxHeight")
         $('.code-peek').removeAttr("style")
         $('.editor-container').css("max-height", maxHeight + "px")
+
+      # handle if the width matters
       when "Left", "Right"
         maxWidth = atom.config.get("code-peek.maxWidth")
         $('.editor-container').removeAttr("style")

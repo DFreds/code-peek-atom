@@ -1,3 +1,43 @@
+CodePeek = require '../lib/code-peek'
+
+# TODO this needs way more work to show actual coverage
+describe "CodePeek", ->
+  [activationPromise, editor, editorView, workspaceView] = []
+
+  beforeEach ->
+    waitsForPromise ->
+      atom.workspace.open()
+
+    runs ->
+      workspaceView = atom.views.getView atom.workspace
+      editor = atom.workspace.getActiveTextEditor()
+      editorView = atom.views.getView editor
+      editor.setText """
+        getTest();
+
+        var getTest = function () {
+          return true;
+        };
+      """
+      editor.setCursorScreenPosition [0, 4]
+
+      activationPromise = atom.packages.activatePackage 'code-peek'
+
+  activateAndThen = (command, callback) ->
+    atom.commands.dispatch(editorView, command)
+    waitsForPromise -> activationPromise
+    runs(callback)
+
+  describe "when a code-peek:peekFunction event is triggered", ->
+    it "activates", ->
+      activateAndThen 'code-peek:peekFunction', ->
+        expect(workspaceView.querySelector(".code-peek")).toExist()
+
+    it "shows a panel", ->
+      activateAndThen 'code-peek:peekFunction', ->
+        waitsFor -> workspaceView.querySelector ".code-peek"
+
+
 # CodePeek = require '../lib/code-peek'
 #
 # # Use the command `window:run-package-specs` (cmd-alt-ctrl-p) to run specs.
