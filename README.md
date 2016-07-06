@@ -1,4 +1,4 @@
-# Code Peek
+# Code Peek [![Build Status](https://travis-ci.org/DFreds/code-peek-atom.svg?branch=master)](https://travis-ci.org/DFreds/code-peek-atom)
 
 This package allows you to quickly peek and edit functions contained in other
 files instead of having to open the file separately. This was inspired by
@@ -30,7 +30,7 @@ Examples for a function called REPLACE:
 * Java - /((public|private|protected|static|final|native|synchronized|abstract|transient)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
 * C# - /((public|private|protected|static|readonly|override|abstract|virtual|async)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
 * Python - /def\s\+REPLACE\s\*\(/
-* Coffee - (REPLACE\s\*(:|=)\s\*\\([\\,\s\w]\*\\)\s\*(=>|->))|(REPLACE\s\*(:|=)\s\*(=>|->))
+* Coffee - /REPLACE\s\*(:|=)\s\*(\\([\,\s\w]\*\\))?\s\*(=>|->)/
 
 # Installation
 ```
