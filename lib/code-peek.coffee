@@ -57,6 +57,7 @@ module.exports = CodePeek =
       'code-peek:peekFunction': => @peekFunction()
 
     @subscriptions.add atom.commands.add 'atom-text-editor',
+      'core:cancel': => @toggleCodePeekOff(false)
       'code-peek:toggleCodePeekOff': => @toggleCodePeekOff(true)
 
   handleClickEvents: ->

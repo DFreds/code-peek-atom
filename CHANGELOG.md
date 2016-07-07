@@ -1,3 +1,7 @@
+## 1.4.6 - Bug fix, new shortcut
+* Fixed bug where the editor would scroll down on hitting the spacebar if the function was too long.
+* Added shortcut to exit without saving (escape by default). It will be the same as the core:cancel shortcut.
+
 ## 1.4.5 - Java and C# regular expressions
 * Fixed bug with the Java and C# regular expression. Should now find any and all Java and C# functions.
 

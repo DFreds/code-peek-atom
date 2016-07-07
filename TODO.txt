@@ -1,2 +1,5 @@
-TODO write unit tests
-TODO set up travis build
+TODO write unit tests for code peek and code peek view
+TODO add command to go to definition? (use same logic as clicking blue code icon)
+
+Eventually:
+TODO use something other than a panel

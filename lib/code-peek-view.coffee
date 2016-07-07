@@ -47,6 +47,10 @@ class CodePeekView extends View
       command: 'code-peek:toggleCodePeekOff'
     })
 
+    coreCancelKeymap = atom.keymaps.findKeyBindings({
+      command: 'core:cancel'
+    })
+
     # add all tooltips
     @subscriptions.add atom.tooltips.add @checkIcon,
       title: "Save and close (#{saveAndCloseKeymap[0].keystrokes})"
@@ -55,7 +59,7 @@ class CodePeekView extends View
       title: "See entire file"
 
     @subscriptions.add atom.tooltips.add @closeIcon,
-      title: "Close without saving"
+      title: "Close without saving (#{coreCancelKeymap[0].keystrokes})"
 
   onClickIcons: ->
     # emit true so that it saves the changes
@@ -110,6 +114,12 @@ class CodePeekView extends View
     @textEditor.setCursorBufferPosition([0, 0])
     @textEditor.scrollToCursorPosition()
 
+    # fixes bug where text editor would scroll down on hitting spacebar
+    @textEditorView.on 'keydown', (e) =>
+      if e.keyCode == 32
+        e.preventDefault()
+        @textEditor.insertText(" ")
+
     switch location
       # handle if the height matters
       when "Bottom", "Top", "Header", "Footer", "Modal"
@@ -123,7 +133,10 @@ class CodePeekView extends View
         $('.editor-container').removeAttr("style")
         $('.code-peek').css("max-width", maxWidth + "px")
 
-  detachTextEditorView: () =>
+
+  detachTextEditorView: =>
+    # remove keybinding
+    @textEditorView.off 'keydown'
     @textEditor = null
 
   addFiles: (filesToAdd) =>
