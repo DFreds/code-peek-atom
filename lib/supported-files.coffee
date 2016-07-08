@@ -61,6 +61,13 @@ class SupportedFiles
       ///
       isTabBased: true
 
+    'rb':
+      regExp: ///
+        # matches 'def REPLACE'
+        def \s+ REPLACE
+      ///
+      isTabBased: true
+
     'java':
       regExp: ///
         # match one or more of the following
