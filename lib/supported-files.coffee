@@ -7,6 +7,26 @@ class SupportedFiles
         function \s+ REPLACE \s* \(
           # or
           |
+        # matches function in class 'REPLACE('
+        REPLACE \s* \(
+          # or
+          |
+        # matches 'REPLACE = function (' or 'REPLACE: function ('
+        REPLACE \s* (=|:) \s* function \s* \(
+      ///
+      isTabBased: false
+
+    # same with .js for rails
+    'es6':
+      regExp: ///
+        # matches 'function REPLACE('
+        function \s+ REPLACE \s* \(
+          # or
+          |
+        # matches function in class 'REPLACE('
+        REPLACE \s* \(
+          # or
+          |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
       ///
