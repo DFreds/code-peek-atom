@@ -82,8 +82,8 @@ class TextEditorParser
       lineTabCount = (line.match(regExp) || []).length
 
       if lineTabCount <= initialTabCount and line
-        # go back a row
-        currRow--
+        # go back a row unless its ruby... this keeps the 'end'
+        currRow-- unless @getFileType() == 'rb'
 
         # determine end of line column
         @textEditor.setCursorBufferPosition([currRow, 0])
