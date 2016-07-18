@@ -16,8 +16,7 @@ Currently, supported files include:
 * C#
 * Python
 * Coffee
-
-More will be coming soon.
+* Ruby
 
 ## Adding A Language
 If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases. Currently, Code Peek supports languages that use curly brackets to indicate the start and end of a function as well as tab based languages such as Python.
@@ -31,6 +30,7 @@ Examples for a function called REPLACE:
 * C# - /((public|private|protected|static|readonly|override|abstract|virtual|async)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
 * Python - /def\s\+REPLACE\s\*\(/
 * Coffee - /REPLACE\s\*(:|=)\s\*(\\([\,\s\w]\*\\))?\s\*(=>|->)/
+* Ruby - /def\s\+REPLACE/
 
 # Installation
 ```

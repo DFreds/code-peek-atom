@@ -1,3 +1,6 @@
+## 1.4.7 - Ruby support
+* Support for Ruby - Thanks goronfreeman
+
 ## 1.4.6 - Bug fix, new shortcut
 * Fixed bug where the editor would scroll down on hitting the spacebar if the function was too long.
 * Added shortcut to exit without saving (escape by default). It will be the same as the core:cancel shortcut.
