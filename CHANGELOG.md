@@ -1,3 +1,6 @@
+## 1.4.8 - Ruby regular expression fix
+* Extend Ruby support to include class methods defined with self - Thanks michael-garland
+
 ## 1.4.7 - Ruby support
 * Support for Ruby - Thanks goronfreeman
 

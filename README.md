@@ -30,7 +30,7 @@ Examples for a function called REPLACE:
 * C# - /((public|private|protected|static|readonly|override|abstract|virtual|async)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
 * Python - /def\s\+REPLACE\s\*\(/
 * Coffee - /REPLACE\s\*(:|=)\s\*(\\([\,\s\w]\*\\))?\s\*(=>|->)/
-* Ruby - /def\s\+REPLACE/
+* Ruby - /def\s\+(self\\.)?REPLACE/
 
 # Installation
 ```
