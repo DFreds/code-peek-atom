@@ -63,8 +63,14 @@ class SupportedFiles
 
     'rb':
       regExp: ///
-        # matches 'def REPLACE'
-        def \s+ REPLACE
+        # matches 'def'
+        def \s+
+
+        # optionally matches 'self.'
+        (self\.)?
+
+        # match REPLACE
+        REPLACE
       ///
       isTabBased: true
 
