@@ -18,4 +18,10 @@ class Foo
   end
 
   f.foo = 123
+
+  def self.testingSelf
+    puts "test"
+  end
 end
+
+Foo.testingSelf
