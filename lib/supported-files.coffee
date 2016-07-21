@@ -8,7 +8,7 @@ class SupportedFiles
           # or
           |
         # matches function in class 'REPLACE('
-        REPLACE \s* \(
+        [ \t\n]REPLACE \s* \(
           # or
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
@@ -24,7 +24,7 @@ class SupportedFiles
           # or
           |
         # matches function in class 'REPLACE('
-        REPLACE \s* \(
+        [ \t\n]REPLACE \s* \(
           # or
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
