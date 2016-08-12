@@ -1,3 +1,7 @@
+## 1.4.9 - Behavior changes and UI fix
+* Code Peek closes when opening entire file when there is only one matching file - Thanks ProLoser
+* Fixed styling on matching files list. Shouldn't take up as much room now. Thanks ProLoser
+
 ## 1.4.8 - Ruby regular expression fix
 * Extend Ruby support to include class methods defined with self - Thanks michael-garland
 
