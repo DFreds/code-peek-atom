@@ -143,6 +143,11 @@ module.exports = CodePeek =
       initialLine: fileInfo.range.start.row
     })
 
+    if @matchingFiles.length is 1
+      # close the code peek panel and save changes
+      console.log "only one matching file"
+      @toggleCodePeekOff(true)
+
   openFileForCodePeek: (file) ->
     if not file? or not file.filePath?
       return
