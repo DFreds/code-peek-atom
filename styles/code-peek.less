@@ -75,15 +75,15 @@
   }
 
   .input-block-item {
-    flex: 1 1 @item-width;
-
+    @matching-padding: 20px;
     .matching-files-label {
       font-size: 16px;
-      padding-left: 15px;
+      padding-left: @matching-padding;
+      padding-right: @matching-padding;
     }
 
     .matching-files-list {
-      padding-left: 30px;
+      padding-left: @matching-padding + 15px;
     }
 
     .matching-files-selected {
