@@ -9,6 +9,7 @@ files instead of having to open the file separately. This was inspired by
 # Supported Files
 Currently, supported files include:
 * JavaScript
+* ES6
 * TypeScript
 * JSX
 * PHP
@@ -22,12 +23,12 @@ Currently, supported files include:
 If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases. Currently, Code Peek supports languages that use curly brackets to indicate the start and end of a function as well as tab based languages such as Python.
 
 Examples for a function called REPLACE:
-* JS - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
+* JS/ES6 - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(|REPLACE\s\*([=:])?\s\*\\(?\s\*\\(([\,\s\w]\*)?\\)?\s*=>/
 * TS - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
 * JSX - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
 * PHP - /function\s\+REPLACE\s\*\\(/
 * Java - /((public|private|protected|static|final|native|synchronized|abstract|transient)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
-* C# - /((public|private|protected|static|readonly|override|abstract|virtual|async)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/
+* C# - /((public|private|protected|static|readonly|override|abstract|virtual|async)+\s)+[\$_\w\<\\>\\[\\]\,\s]\*\s+REPLACE\\(/
 * Python - /def\s\+REPLACE\s\*\(/
 * Coffee - /REPLACE\s\*(:|=)\s\*(\\([\,\s\w]\*\\))?\s\*(=>|->)/
 * Ruby - /def\s\+(self\\.)?REPLACE/
@@ -66,9 +67,5 @@ This can be edited by defining key bindings as shown below.
   'ctrl-alt-e': 'code-peek:peekFunction'
   'shift-escape': 'code-peek:toggleCodePeekOff'
 ```
-
-# Coming Soon
-* Additional language support
-  * HTML/CSS
 
 ### Full change log [here](./CHANGELOG.md).

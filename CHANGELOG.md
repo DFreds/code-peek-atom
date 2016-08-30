@@ -1,3 +1,6 @@
+## 1.4.10 - Added ES6 function support
+* Support for ES6 style functions
+
 ## 1.4.9 - Behavior changes and UI fix
 * Code Peek closes when opening entire file when there is only one matching file - Thanks ProLoser
 * Fixed styling on matching files list. Shouldn't take up as much room now. Thanks ProLoser
