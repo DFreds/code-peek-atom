@@ -9,6 +9,10 @@ class SupportedFiles
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
+          # or
+          |
+        # matches es6 style functions
+        REPLACE \s* ([=:])? \s* \(? \s* \( ([\,\s\w]*)? \)? \s* =>
       ///
       isTabBased: false
 
