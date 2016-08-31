@@ -1,3 +1,6 @@
+## 1.4.11 - Bug fix
+* Fixed issue where peeking a function name that contained regular expression characters was throwing an error
+
 ## 1.4.10 - Added ES6 function support
 * Support for ES6 style functions
 
