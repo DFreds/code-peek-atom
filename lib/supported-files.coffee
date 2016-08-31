@@ -153,6 +153,10 @@ class SupportedFiles
     # convert to string so we can replace
     regExpStr = regExp.toString()
 
+    # escape the function name to avoid exceptions with special characters
+    functionName = functionName.replace /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g,
+      "\\$&"
+
     # change all occurances of REPLACE placeholder to the actual function name
     regExpStr = regExpStr.replace /REPLACE/g, functionName
 
