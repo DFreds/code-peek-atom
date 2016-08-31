@@ -67,7 +67,11 @@ describe "SupportedFiles", ->
   describe "when getting the regular expression for a valid file type", ->
     result = null
     expectedResult = ///
-      function \s+ TEST \s* \( | TEST \s* (=|:) \s* function \s* \(
+      function \s+ TEST \s* \(
+        |
+      TEST \s* (=|:) \s* function \s* \(
+        |
+      TEST \s* ([=:])? \s* \(? \s* \( ([\,\s\w]*)? \)? \s* =>
     ///
 
     beforeEach ->
