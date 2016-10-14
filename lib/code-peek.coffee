@@ -109,8 +109,9 @@ module.exports = CodePeek =
     @scanWorkspace(regExp, fileType, functionName)
 
   scanWorkspace: (regExp, fileType, functionName) ->
-    # TODO make paths configurable?
-    atom.workspace.scan(regExp, {paths: ["*.#{fileType}"]}, (matchingFile) =>
+    pathsArray = @constructPathsArray(fileType)
+
+    atom.workspace.scan(regExp, {paths: pathsArray}, (matchingFile) =>
       initialLine = 0
 
       # HACK If the file has unsaved changes, we get a range object.
@@ -129,7 +130,7 @@ module.exports = CodePeek =
       # finished scanning files
       if @matchingFiles.length is 0
         atom.notifications.addWarning("Could not find function \
-          \"#{functionName}\" in project")
+          \"#{functionName}\" in project.")
         return
 
       # add files to list
@@ -137,6 +138,19 @@ module.exports = CodePeek =
 
       # open the first file in code peek
       @openFileForCodePeek(@matchingFiles[0])
+
+  constructPathsArray: (fileType) ->
+    # always only parse files of the same type
+    pathsToInclude = ["*.#{fileType}"]
+
+    pathsToIgnore = atom.config.get("code-peek.ignoredPaths")
+    if pathsToIgnore
+      for path in pathsToIgnore
+        # do the opposite of what is put in the ignored paths field
+        # this is for user convenience in the settings menu
+        pathsToInclude.push("!#{path}")
+
+    return pathsToInclude
 
   openEntireFile: (fileInfo) ->
     atom.workspace.open(fileInfo.filePath, {

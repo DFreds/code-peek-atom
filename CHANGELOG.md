@@ -1,3 +1,6 @@
+## 1.4.12 - Configuration setting
+* Added configuration to specify paths that code peek should ignore
+
 ## 1.4.11 - Bug fix
 * Fixed issue where peeking a function name that contained regular expression characters was throwing an error
 
