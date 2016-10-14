@@ -44,6 +44,9 @@ Or search for <code>code-peek</code> in the Atom settings view.
 ### Ask If Save On Modified
 By default, clicking the "Close without saving" button after a file is modified using Code Peek will ask the user if they want to save their changes. This configuration option can be toggled off to stop the dialogue box from appearing.
 
+### Ignored Paths
+This setting provides a way to exclude certain paths or files from being found by Code Peek. Please note that any files or directories in 'Core -> Ignored Names' will be ignored even if you do not list it here. Additionally, any files and directories ignored by the current project's VCS system will be ignored if the 'Core -> Exclude VCS Ignored Paths' is checked. See the description of that setting for more details.
+
 ### Code Peek Location
 This setting dictates where the Code Peek panel should appear. By default, it will appear at the bottom of the screen. Additional options include top, left, right, header, footer, and modal.
 
