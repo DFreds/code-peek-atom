@@ -27,6 +27,13 @@ class SupportedFiles
       ///
       isTabBased: false
 
+    'go':
+      regExp: ///
+        # Matches func REPLACE( or func (t target) REPLACE(
+        func\s+(|\(.*\)\s+)REPLACE\(
+      ///
+      isTabBased: true
+      
     'jsx':
       regExp: ///
         # matches 'function REPLACE('
