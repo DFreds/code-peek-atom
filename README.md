@@ -11,6 +11,7 @@ Currently, supported files include:
 * JavaScript
 * ES6
 * TypeScript
+* Go
 * JSX
 * PHP
 * Java
@@ -25,6 +26,7 @@ If you'd like to add your own language, send me a regex string or make a pull re
 Examples for a function called REPLACE:
 * JS/ES6 - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(|REPLACE\s\*([=:])?\s\*\\(?\s\*\\(([\,\s\w]\*)?\\)?\s*=>/
 * TS - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
+* Go - /func\s\+\(|\\(.*\\)\s+)REPLACE\\(/
 * JSX - /function\s\+REPLACE\s\*\(|REPLACE\s\*(=|:)\s\*function\s\*\\(/
 * PHP - /function\s\+REPLACE\s\*\\(/
 * Java - /((public|private|protected|static|final|native|synchronized|abstract|transient)+\s)+[\$_\w\<\\>\\[\\]\,\s]*\s+REPLACE\\(/

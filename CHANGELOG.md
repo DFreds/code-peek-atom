@@ -1,3 +1,6 @@
+## 1.4.13 - Add Go language support
+* Support for Go functions - Thanks krohnjw!
+
 ## 1.4.12 - Configuration setting
 * Added configuration to specify paths that code peek should ignore
 
