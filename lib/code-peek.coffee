@@ -204,7 +204,7 @@ module.exports = CodePeek =
       atom.config.get("code-peek.askIfSaveOnModified")
         chosen = atom.confirm({
           message: 'This file has changes. Do you want to save them?'
-          detailedMessage: "Your changes will be lost if you close this item\
+          detailedMessage: "Your changes will be lost if you close this item \
             without saving."
           buttons: ["Save", "Cancel", "Don't save"]
         })

@@ -1,3 +1,6 @@
+## 1.4.14 - Bug fix
+* Fixed typo in save dialogue
+
 ## 1.4.13 - Add Go language support
 * Support for Go functions - Thanks krohnjw!
 
