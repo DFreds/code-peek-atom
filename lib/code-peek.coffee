@@ -99,13 +99,14 @@ module.exports = CodePeek =
 
     @previousFunctionName = functionName
     fileType = textEditorParser.getFileType()
+    grammarName = textEditorParser.getGrammarName()
 
-    if not SupportedFiles.isSupported(fileType)
-      atom.notifications.addWarning("Peek function does not support \
-        #{fileType} files")
-      return
+    regExp = SupportedFiles.getRegExpForGrammarName(grammarName, functionName)
 
-    regExp = SupportedFiles.getFunctionRegExpForFileType(fileType, functionName)
+    if not regExp
+      atom.notifications.addWarning("Peek function does not currently support \
+        #{grammarName} files")
+
     @scanWorkspace(regExp, fileType, functionName)
 
   scanWorkspace: (regExp, fileType, functionName) ->
@@ -181,7 +182,7 @@ module.exports = CodePeek =
     textEditorParser = new TextEditorParser(matchingTextEditor)
 
     functionInfo = null
-    if SupportedFiles.isTabBased(textEditorParser.getFileType())
+    if SupportedFiles.isTabBased(textEditorParser.getGrammarName())
       functionInfo = textEditorParser.getFunctionInfoForTab(
         matchingTextEditor.getCursorBufferPosition().row
       )
