@@ -1,4 +1,4 @@
-## 1.5.0 - Find functions based on grammar type
+## 1.4.15 - Find functions based on grammar type
 * Code Peek now looks at the grammar type to determine how to find the function instead of the file type. For instance, if you were using the extension type .es6 before, Code Peek would complain that it doesn't support it. Now, it will see that the grammar is JavaScript and use that to match. Thanks tongjieme!
 
 ## 1.4.14 - Bug fix
