@@ -14,6 +14,10 @@ class TextEditorParser
     splitTitle = @textEditor.getTitle().split(".")
     return splitTitle[splitTitle.length - 1]
 
+  getGrammarName: ->
+    return null if not @textEditor?
+    return @textEditor.getGrammar().name
+
   getWordContainingCursor: ->
     return null if not @textEditor?
 
@@ -83,7 +87,7 @@ class TextEditorParser
 
       if lineTabCount <= initialTabCount and line
         # go back a row unless its ruby... this keeps the 'end'
-        currRow-- unless @getFileType() == 'rb'
+        currRow-- unless @getGrammarName() == 'Ruby'
 
         # determine end of line column
         @textEditor.setCursorBufferPosition([currRow, 0])

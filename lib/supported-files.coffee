@@ -1,7 +1,7 @@
 module.exports =
 class SupportedFiles
   @types =
-    'js':
+    'JavaScript':
       regExp: ///
         # matches 'function REPLACE('
         function \s+ REPLACE \s* \(
@@ -16,7 +16,7 @@ class SupportedFiles
       ///
       isTabBased: false
 
-    'ts':
+    'TypeScript':
       regExp: ///
         # matches 'function REPLACE('
         function \s+ REPLACE \s* \(
@@ -27,14 +27,14 @@ class SupportedFiles
       ///
       isTabBased: false
 
-    'go':
+    'Go':
       regExp: ///
         # Matches func REPLACE( or func (t target) REPLACE(
         func\s+(|\(.*\)\s+)REPLACE\(
       ///
       isTabBased: true
-      
-    'jsx':
+
+    'JavaScript (JSX)':
       regExp: ///
         # matches 'function REPLACE('
         function \s+ REPLACE \s* \(
@@ -45,14 +45,14 @@ class SupportedFiles
       ///
       isTabBased: false
 
-    'php':
+    'PHP':
       regExp: ///
         # matches 'function REPLACE ('
         function \s+ REPLACE \s* \(
       ///
       isTabBased: false
 
-    'coffee':
+    'CoffeeScript':
       regExp: ///
         # matches 'REPLACE: ' or 'REPLACE ='
         REPLACE \s* (:|=) \s*
@@ -65,14 +65,14 @@ class SupportedFiles
       ///
       isTabBased: true
 
-    'py':
+    'Python':
       regExp: ///
         # matches 'def REPLACE('
         def \s+ REPLACE \s* \(
       ///
       isTabBased: true
 
-    'rb':
+    'Ruby':
       regExp: ///
         # matches 'def'
         def \s+
@@ -85,7 +85,7 @@ class SupportedFiles
       ///
       isTabBased: true
 
-    'java':
+    'Java':
       regExp: ///
         # match one or more of the following
         (
@@ -117,7 +117,7 @@ class SupportedFiles
     #   regExp: ''
     #   isTabBased: false
 
-    'cs':
+    'C#':
       regExp: ///
         # match one or more of the following
         (
@@ -141,21 +141,18 @@ class SupportedFiles
       ///
       isTabBased: false
 
-  @isSupported: (fileType) ->
-    if @types[fileType]? then return true else return false
-
-  @isTabBased: (fileType) ->
-    if @types[fileType]?
-      return @types[fileType].isTabBased
+  @isTabBased: (grammarName) ->
+    if @types[grammarName]?
+      return @types[grammarName].isTabBased
     else
       return false
 
-  @getFunctionRegExpForFileType: (fileType, functionName) ->
-    if not @types[fileType] then throw new Error "File type #{fileType} is not \
-      supported"
+  @getRegExpForGrammarName: (grammarName, functionName) ->
+    if not @types[grammarName]?
+      return
 
     # get the regular expression for the file type
-    regExp = @types[fileType].regExp
+    regExp = @types[grammarName].regExp
 
     # convert to string so we can replace
     regExpStr = regExp.toString()
