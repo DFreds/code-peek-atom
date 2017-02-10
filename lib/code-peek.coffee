@@ -101,15 +101,22 @@ module.exports = CodePeek =
     fileType = textEditorParser.getFileType()
     grammarName = textEditorParser.getGrammarName()
 
+    if grammarName == "Null Grammar"
+      atom.notifications.addError("Grammar type of file must be set to peek \
+      function")
+      return
+
     regExp = SupportedFiles.getRegExpForGrammarName(grammarName, functionName)
 
-    if not regExp
+    if not regExp?
       atom.notifications.addWarning("Peek function does not currently support \
         #{grammarName} files")
+      return
 
     @scanWorkspace(regExp, fileType, functionName)
 
   scanWorkspace: (regExp, fileType, functionName) ->
+
     pathsArray = @constructPathsArray(fileType)
 
     atom.workspace.scan(regExp, {paths: pathsArray}, (matchingFile) =>
@@ -141,8 +148,9 @@ module.exports = CodePeek =
       @openFileForCodePeek(@matchingFiles[0])
 
   constructPathsArray: (fileType) ->
-    # always only parse files of the same type
-    pathsToInclude = ["*.#{fileType}"]
+    pathsToInclude = []
+    if fileType?
+      pathsToInclude.push("*.#{fileType}")
 
     pathsToIgnore = atom.config.get("code-peek.ignoredPaths")
     if pathsToIgnore
