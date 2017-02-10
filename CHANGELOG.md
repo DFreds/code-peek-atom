@@ -1,3 +1,7 @@
+## 1.4.16 - Bug fixes
+* Fixed issue where exception was thrown when grammar type of file was not set - Thanks crostine!
+* Fixed issue where function would not be peeked if file did not have an extension but had a grammar type
+
 ## 1.4.15 - Find functions based on grammar type
 * Code Peek now looks at the grammar type to determine how to find the function instead of the file type. For instance, if you were using the extension type .es6 before, Code Peek would complain that it doesn't support it. Now, it will see that the grammar is JavaScript and use that to match. Thanks tongjieme!
 

@@ -12,7 +12,11 @@ class TextEditorParser
     return null if not @textEditor?
 
     splitTitle = @textEditor.getTitle().split(".")
-    return splitTitle[splitTitle.length - 1]
+
+    if splitTitle.length > 1
+      return splitTitle[splitTitle.length - 1]
+    else
+      return null
 
   getGrammarName: ->
     return null if not @textEditor?

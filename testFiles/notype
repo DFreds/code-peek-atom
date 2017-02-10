@@ -1,0 +1,14 @@
+(function () {
+
+  getTestStuff (() => {
+  });
+
+
+
+  getTestStuff();
+  test2(test, test2);
+  test3();
+  test4(test1, test2);
+  test5();
+  test6();
+})();
