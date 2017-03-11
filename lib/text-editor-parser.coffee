@@ -20,7 +20,7 @@ class TextEditorParser
 
   getGrammarName: ->
     return null if not @textEditor?
-    return @textEditor.getGrammar().name
+    return @textEditor.getGrammar().name.replace("semanticolor - ", "")
 
   getWordContainingCursor: ->
     return null if not @textEditor?

@@ -36,6 +36,15 @@ describe "TextEditorParser", ->
     it "should return the file type", ->
       expect(fileType).toEqual('js')
 
+  describe "when getting the grammar name", ->
+
+    it "should return the grammar name from the text editor", ->
+      spyOn(textEditor, 'getGrammar').andReturn({'name': 'Ruby'})
+      expect(textEditorParser.getGrammarName()).toEqual('Ruby')
+    it "should strip off semanticolor prefix if present", ->
+      spyOn(textEditor, 'getGrammar').andReturn({'name': 'semanticolor - Ruby'})
+      expect(textEditorParser.getGrammarName()).toEqual('Ruby')
+
   describe "when getting the word containing the cursor", ->
     word = null
 
