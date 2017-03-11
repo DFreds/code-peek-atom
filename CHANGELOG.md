@@ -1,3 +1,6 @@
+## 1.4.17 - Semanticolor support
+* Adds support for semanticolor grammars - Thanks glammers and marnen!
+
 ## 1.4.16 - Bug fixes
 * Fixed issue where exception was thrown when grammar type of file was not set - Thanks crostine!
 * Fixed issue where function would not be peeked if file did not have an extension but had a grammar type
