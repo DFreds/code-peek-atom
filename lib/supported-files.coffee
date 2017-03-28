@@ -13,6 +13,10 @@ class SupportedFiles
           |
         # matches es6 style functions
         REPLACE \s* ([=:])? \s* \(? \s* \( ([\,\s\w]*)? \)? \s* =>
+          # or
+          |
+        # matches REPLACE(args) {}
+        REPLACE\(? \s* \( ([\,\s\w]*)? \) \s* {
       ///
       isTabBased: false
 
@@ -42,6 +46,10 @@ class SupportedFiles
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
+          # or
+          |
+        # matches REPLACE(args) {}
+        REPLACE\(? \s* \( ([\,\s\w]*)? \) \s* {
       ///
       isTabBased: false
 

@@ -3,3 +3,5 @@ getTest();
 function getTest() {
 
 }
+
+teststuff();
