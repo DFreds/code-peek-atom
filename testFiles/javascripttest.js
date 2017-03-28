@@ -25,6 +25,7 @@ SomeClass.prototype.testClassFunc = function() {
   return null;
 };
 
+teststuff(arg1);
 testClassFunc();
 
 getTest();
@@ -35,6 +36,9 @@ return {
   }
 };
 
+teststuff(arg1) {
+
+}
 
 function peekFunction(testing) {
   console.log("I am doing something here");

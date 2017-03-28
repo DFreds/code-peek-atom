@@ -23,6 +23,7 @@
     return this.a+10; // represents global object 'Window', therefore 'this.a' returns 'undefined'
   }
 
+  teststuff(var1);
   getTestStuff();
   getTest();
   test2(test, test2);
