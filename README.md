@@ -23,7 +23,7 @@ Currently, supported files include:
 ## Adding A Language
 If you'd like to add your own language, send me a regex string or make a pull request that adds one that will correctly find the first line of a function using a known name for that language in all cases. Currently, Code Peek supports languages that use curly brackets to indicate the start and end of a function as well as tab based languages such as Python.
 
-The regular expressions for the supported files are located ![here](https://raw.githubusercontent.com/DFreds/code-peek-atom/master/lib/supported-files.coffee)
+The regular expressions for the supported files are located [here](https://raw.githubusercontent.com/DFreds/code-peek-atom/master/lib/supported-files.coffee).
 
 # Installation
 ```

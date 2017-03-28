@@ -1,5 +1,5 @@
 ## 1.4.18 - ES6 class shorthand method support
-* Adds support for methodName() {} style es6 functions
+* Adds support for methodName() {} style es6 functions - Thanks jonyeezs!
 
 ## 1.4.17 - Semanticolor support
 * Adds support for semanticolor grammars - Thanks glammers and marnen!
