@@ -117,6 +117,21 @@ class SupportedFiles
       ///
       isTabBased: false
 
+    'PL/SQL (Oracle)':
+      regExp: ///
+        # matches 'function|procedure REPLACE('
+        (function|procedure) \s+ REPLACE \s* \(
+        # or
+        |
+        # matches package types
+        type \s+ REPLACE \s+ is \s+ (record|table)
+        # or
+        |
+        # matches constants
+        REPLACE \s+ constant \s+
+      ///
+      isTabBased: false
+
     # 'c':
     #   regExp: ''
     #   isTabBased: false
