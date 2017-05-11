@@ -11,6 +11,7 @@ Currently, supported files include:
 * JavaScript
 * ES6
 * TypeScript
+* [TypeScript/TypeScriptReact](https://atom.io/packages/atom-typescript)
 * Go
 * JSX
 * PHP
