@@ -31,6 +31,17 @@ class SupportedFiles
       ///
       isTabBased: false
 
+    'TypeScriptReact':
+      regExp: ///
+        # matches 'function REPLACE('
+        function \s+ REPLACE \s* \(
+          # or
+          |
+        # matches 'REPLACE = function (' or 'REPLACE: function ('
+        REPLACE \s* (=|:) \s* function \s* \(
+      ///
+      isTabBased: false
+
     'Go':
       regExp: ///
         # Matches func REPLACE( or func (t target) REPLACE(
