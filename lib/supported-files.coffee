@@ -120,7 +120,7 @@ class SupportedFiles
     'PL/SQL (Oracle)':
       regExp: ///
         # matches 'function|procedure REPLACE('
-        (function|procedure) \s+ REPLACE \s* \(
+        (function|procedure) \s+ REPLACE \s* \(?
         # or
         |
         # matches package types
