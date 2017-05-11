@@ -6,11 +6,12 @@ files instead of having to open the file separately. This was inspired by
 
 ![Code Peek Demo](https://github.com/DFreds/code-peek-atom/blob/master/code-peek.gif?raw=true)
 
+### Full change log [here](./CHANGELOG.md).
+
 # Supported Files
 Currently, supported files include:
 * JavaScript
 * ES6
-* TypeScript
 * [TypeScript/TypeScriptReact](https://atom.io/packages/atom-typescript)
 * Go
 * JSX
@@ -64,4 +65,6 @@ This can be edited by defining key bindings as shown below.
   'shift-escape': 'code-peek:toggleCodePeekOff'
 ```
 
-### Full change log [here](./CHANGELOG.md).
+# Other Projects
+## Test Navigator
+I created [Test Navigator](https://atom.io/packages/test-navigator) to allow you to quickly navigate between implementation and test files. Check it out!
