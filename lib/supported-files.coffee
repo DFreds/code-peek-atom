@@ -22,23 +22,51 @@ class SupportedFiles
 
     'TypeScript':
       regExp: ///
+        # class
+        class \s+ REPLACE(
+          \s+ extends\s+ [_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]* |
+        ) \s+ {
+          # or
+          |
         # matches 'function REPLACE('
         function \s+ REPLACE \s* \(
           # or
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
+          # or
+          |
+        # function:
+        (private|protected|public)? (static)? \s+ REPLACE \s* \(
+          # or
+          |
+        # interface
+        interface \s+ REPLACE \s* {
       ///
       isTabBased: false
 
     'TypeScriptReact':
       regExp: ///
+        # class
+        class \s+ REPLACE(
+          \s+ extends\s+ [_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]* |
+        ) \s+ {
+          # or
+          |
         # matches 'function REPLACE('
         function \s+ REPLACE \s* \(
           # or
           |
         # matches 'REPLACE = function (' or 'REPLACE: function ('
         REPLACE \s* (=|:) \s* function \s* \(
+          # or
+          |
+        # function:
+        (private|protected|public)? (static)? \s+ REPLACE \s* \(
+          # or
+          |
+        # interface
+        interface \s+ REPLACE \s* {
       ///
       isTabBased: false
 

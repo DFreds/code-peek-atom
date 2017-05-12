@@ -12,7 +12,7 @@ files instead of having to open the file separately. This was inspired by
 Currently, supported files include:
 * JavaScript
 * ES6
-* [TypeScript/TypeScriptReact](https://atom.io/packages/atom-typescript)
+* [TypeScript/TypeScriptReact](https://atom.io/packages/atom-typescript) (Supports classes and interfaces as well!)
 * Go
 * JSX
 * PHP
