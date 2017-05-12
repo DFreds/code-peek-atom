@@ -1,3 +1,6 @@
+## 1.4.19 - TypeScriptReact grammar type
+* Adds support for TypeScriptReact grammars that are usually in .tsx files - Thanks vinz243!
+
 ## 1.4.18 - ES6 class shorthand method support
 * Adds support for methodName() {} style es6 functions - Thanks jonyeezs!
 
