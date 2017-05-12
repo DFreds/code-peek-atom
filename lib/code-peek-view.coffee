@@ -28,8 +28,8 @@ class CodePeekView extends View
     @addTooltips()
 
     @text = null
-    @editRange = null
     @originalTextEditor = null
+    @initialLine = 0
 
     @textEditor = null
 
@@ -70,7 +70,7 @@ class CodePeekView extends View
     @codeIcon.on 'click', =>
       fileInfo =
         filePath: @originalTextEditor.getPath()
-        range: @editRange
+        initialLine: @initialLine
       @emitter.emit 'code-icon-clicked', fileInfo
 
     # emit false so that it does not save the changes
@@ -89,30 +89,24 @@ class CodePeekView extends View
   onSelectFile: (callback) ->
     @emitter.on 'select-file', callback
 
-  setupForEditing: (functionInfo, originalTextEditor) ->
-    if not functionInfo.text or not
-      functionInfo.range or not
-      originalTextEditor
-        atom.notifications.addError("Could not setup for editing")
-        return
-
-    @text = functionInfo.text
-    @editRange = functionInfo.range
+  setupForEditing: (originalTextEditor, initialLine) ->
     @originalTextEditor = originalTextEditor
+    @initialLine = initialLine
+
+    @text = @originalTextEditor.getText()
 
     @descriptionLabel.html("Code Peek <span class='subtle-info-message'>\
       #{@originalTextEditor.getPath()}</span>")
 
     @textEditor = @textEditorView.getModel()
+    @textEditor.setText(@text)
     @textEditor.setGrammar(@originalTextEditor.getGrammar())
+    @textEditor.setCursorBufferPosition([@initialLine, 0])
+
+    # TODO: this isn't working
+    @textEditor.scrollToBufferPosition([@initialLine, 0], {center: true})
 
   attachTextEditorView: (location) ->
-    if not @text? or not @editRange? or not @originalTextEditor?
-      throw new Error "Not all parameters set"
-
-    @textEditor.setText(@text)
-    @textEditor.setCursorBufferPosition([0, 0])
-    @textEditor.scrollToCursorPosition()
 
     # fixes bug where text editor would scroll down on hitting spacebar
     @textEditorView.on 'keydown', (e) =>
@@ -175,13 +169,9 @@ class CodePeekView extends View
       @emitter.emit 'select-file', filesToAdd[e.target.id]
 
   isModified: ->
-    if @textEditor? and @originalTextEditor?
-      return @textEditor.getText() !=
-        @originalTextEditor.getTextInBufferRange(@editRange)
+    return @textEditor.getText() != @originalTextEditor.getText()
 
   saveChanges: ->
     if @textEditor? and @originalTextEditor?
-      newText = @textEditor.getText()
-
-      @originalTextEditor.setTextInBufferRange(@editRange, newText)
+      @originalTextEditor.setText(@textEditor.getText())
       @originalTextEditor.save()
