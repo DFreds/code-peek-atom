@@ -24,36 +24,6 @@ describe "SupportedFiles", ->
       expect(result).toEqual(true)
 
   ###
-    Test isTabBased(fileType)
-  ###
-  describe "when checking if an invalid file type is tab based", ->
-    result = null
-
-    beforeEach ->
-      result = SupportedFiles.isTabBased("invalid")
-
-    it "should return false", ->
-      expect(result).toEqual(false)
-
-  describe "when checking if a non-tab based file type is tab based", ->
-    result = null
-
-    beforeEach ->
-      result = SupportedFiles.isTabBased("java")
-
-    it "should return false", ->
-      expect(result).toEqual(false)
-
-  describe "when checking if a tab based file type is tab based", ->
-    result = null
-
-    beforeEach ->
-      result = SupportedFiles.isTabBased("py")
-
-    it "should return true", ->
-      expect(result).toEqual(true)
-
-  ###
     Test getFunctionRegExpForFileType(fileType, functionName)
   ###
   describe "when getting the regular expression for an invalid file type", ->

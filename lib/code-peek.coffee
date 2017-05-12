@@ -85,7 +85,8 @@ module.exports = CodePeek =
     @matchingFiles = []
 
     textEditorParser = new TextEditorParser(
-      atom.workspace.getActiveTextEditor())
+      atom.workspace.getActiveTextEditor()
+    )
 
     functionName = textEditorParser.getWordContainingCursor()
     if not functionName?
@@ -132,8 +133,11 @@ module.exports = CodePeek =
       else
         initialLine = matchingFile.matches[0].range[0][0]
 
-      @matchingFiles.push(new FileInfo(matchingFile.filePath,
-        initialLine))
+      # add the matching file to the array
+      @matchingFiles.push(
+        new FileInfo(matchingFile.filePath, initialLine)
+      )
+
     ).then =>
       # finished scanning files
       if @matchingFiles.length is 0
@@ -163,43 +167,28 @@ module.exports = CodePeek =
 
   openEntireFile: (fileInfo) ->
     atom.workspace.open(fileInfo.filePath, {
-      initialLine: fileInfo.range.start.row
+      initialLine: fileInfo.initialLine
     })
 
     if @matchingFiles.length is 1
       # close the code peek panel and save changes
-      console.log "only one matching file"
       @toggleCodePeekOff(true)
 
   openFileForCodePeek: (file) ->
-    if not file? or not file.filePath?
-      return
     atom.workspace.open(file.filePath, {
       initialLine: file.initialLine
       activatePane: false
       activateItem: false
     }).then (matchingTextEditor) =>
       # finished opening file
-      @startEditing(matchingTextEditor)
+      @startEditing(matchingTextEditor, file.initialLine)
 
-  startEditing: (matchingTextEditor) ->
+  startEditing: (matchingTextEditor, initialLine) ->
     # hide the panel and save changes if it already visible
     if @panel.isVisible()
       @toggleCodePeekOff(true)
 
-    textEditorParser = new TextEditorParser(matchingTextEditor)
-
-    functionInfo = null
-    if SupportedFiles.isTabBased(textEditorParser.getGrammarName())
-      functionInfo = textEditorParser.getFunctionInfoForTab(
-        matchingTextEditor.getCursorBufferPosition().row
-      )
-    else
-      functionInfo = textEditorParser.getFunctionInfoForBracket(
-        matchingTextEditor.getCursorBufferPosition().row
-      )
-
-    @codePeekView.setupForEditing(functionInfo, matchingTextEditor)
+    @codePeekView.setupForEditing(matchingTextEditor, initialLine)
     @toggleCodePeekOn()
 
   toggleCodePeekOn: ->

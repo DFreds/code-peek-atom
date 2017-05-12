@@ -18,8 +18,6 @@ class SupportedFiles
         # matches REPLACE(args) {}
         REPLACE\(? \s* \( ([\,\s\w]*)? \) \s* {
       ///
-      isTabBased: false
-
     'TypeScript':
       regExp: ///
         # class
@@ -43,7 +41,6 @@ class SupportedFiles
         # interface
         interface \s+ REPLACE \s* {
       ///
-      isTabBased: false
 
     'TypeScriptReact':
       regExp: ///
@@ -68,14 +65,12 @@ class SupportedFiles
         # interface
         interface \s+ REPLACE \s* {
       ///
-      isTabBased: false
 
     'Go':
       regExp: ///
         # Matches func REPLACE( or func (t target) REPLACE(
         func\s+(|\(.*\)\s+)REPLACE\(
       ///
-      isTabBased: true
 
     'JavaScript (JSX)':
       regExp: ///
@@ -90,14 +85,12 @@ class SupportedFiles
         # matches REPLACE(args) {}
         REPLACE\(? \s* \( ([\,\s\w]*)? \) \s* {
       ///
-      isTabBased: false
 
     'PHP':
       regExp: ///
         # matches 'function REPLACE ('
         function \s+ REPLACE \s* \(
       ///
-      isTabBased: false
 
     'CoffeeScript':
       regExp: ///
@@ -110,14 +103,12 @@ class SupportedFiles
         # matches '->' or '=>' to end the function
         \s* (=>|->)
       ///
-      isTabBased: true
 
     'Python':
       regExp: ///
         # matches 'def REPLACE('
         def \s+ REPLACE \s* \(
       ///
-      isTabBased: true
 
     'Ruby':
       regExp: ///
@@ -130,7 +121,6 @@ class SupportedFiles
         # match REPLACE
         REPLACE
       ///
-      isTabBased: true
 
     'Java':
       regExp: ///
@@ -154,15 +144,6 @@ class SupportedFiles
         # match ( exactly
         \(
       ///
-      isTabBased: false
-
-    # 'c':
-    #   regExp: ''
-    #   isTabBased: false
-
-    # 'cpp':
-    #   regExp: ''
-    #   isTabBased: false
 
     'C#':
       regExp: ///
@@ -186,13 +167,6 @@ class SupportedFiles
         # match ( exactly
         \(
       ///
-      isTabBased: false
-
-  @isTabBased: (grammarName) ->
-    if @types[grammarName]?
-      return @types[grammarName].isTabBased
-    else
-      return false
 
   @getRegExpForGrammarName: (grammarName, functionName) ->
     if not @types[grammarName]?
