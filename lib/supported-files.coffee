@@ -188,6 +188,15 @@ class SupportedFiles
       ///
       isTabBased: false
 
+    'R':
+      regExp: ///
+        REPLACE \s* <- \s* function \s* \(
+          # or
+          |
+        REPLACE \s* = \s* function \s* \(
+      ///
+      isTabBased: false
+
   @isTabBased: (grammarName) ->
     if @types[grammarName]?
       return @types[grammarName].isTabBased
