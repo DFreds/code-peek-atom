@@ -1,5 +1,8 @@
+## 1.4.21 - Support for R
+* Adds support for R functions - Thanks to Jeff1995!
+
 ## 1.4.20 - Support for TypeScript classes and interfaces
-* Adds support for TypeScript and TypeScriptReact classes and interfaces - Thanks to jonyeezs and avernus88! 
+* Adds support for TypeScript and TypeScriptReact classes and interfaces - Thanks to jonyeezs and avernus88!
 
 ## 1.4.19 - TypeScriptReact grammar type
 * Adds support for TypeScriptReact grammars that are usually in .tsx files - Thanks vinz243!
